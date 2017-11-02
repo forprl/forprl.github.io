@@ -3,7 +3,7 @@ layout: post
 title:  "phpMyAdmin导入文件大小限制"
 date:   2017-10-11 12:00:00 +0800
 categories: web
-tags: web Mysql phpmyadmin
+tags: web Mysql phpMyAdmin
 author: cndaqiang
 mathjax: true
 ---
