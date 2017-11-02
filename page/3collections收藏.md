@@ -10,7 +10,4 @@ type: page
 {:toc}
 
 ## 工具
-## 编程语言
-## GitBook 及其插件
-## Chrome 插件
 ## Other blogs
