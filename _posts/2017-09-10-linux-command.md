@@ -331,7 +331,8 @@ ifconfig lo up
 ifconfig eth0 add 192.168.1.2 
 ```
 给eth0添加ip 192.168.1.2,发现增加了一个网卡eth0:0
-ifconfig eth0 del 192.168.1.2 删除ip命令在ubuntu上无效？？
+
+`ifconfig eth0 del 192.168.1.2` 删除ip命令在ubuntu上无效？？
 
 ```
 ifconfig eth0 hw ether 52:54:00:5c:f4:9a
@@ -341,7 +342,7 @@ ifconfig eth0 hw ether 52:54:00:5c:f4:9a
 ifconfig eth0 10.105.10.195 netmask 255.255.192.0 broadcast 10.105.63.255
 ```
 **修改** ip地址 掩码 广播地址
-#### 永久更改ip/dhcp
+#### 永久更改ip/dhcp,mac地址
 ```
 vi /etc/network/interfaces
 ```
@@ -368,6 +369,10 @@ netmask 255.255.255.0
 network x.x.x.x
 broadcast x.x.x.x
 gateway x.x.x.x
+```
+固定mac地址
+```
+hw ether 66:42:9e:48:72:xx
 ```
 重启生效
 `/etc/init.d/networking restart`
