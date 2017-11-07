@@ -68,6 +68,9 @@ UPDATE 表名 SET 字段=REPLACE(字段,'旧内容','新内容');
 然后更新缓存
 #### 遇到的问题，一次全替换不可以，需要分部分替换，更新缓存，再替换，再更新
 
+**必须执行完一段sql，更新，再执行另一端**
+
+
 ---------
 下面是一次实际操作
 ##### [失败] 下载数据库后，编辑器搜索netstu.net全部替换cndaqiang.online
@@ -155,6 +158,9 @@ UPDATE pre_common_block_item SET fields=REPLACE(fields,'old.com','new.com');
 执行之后，论坛主页很多内容不显示了，等待10分钟，刷新出板块，60分刷出排行榜，应该属于刷新时间
 
 -----
+
+**等论坛正常后再进行之后的替换**
+
 5 之后，又搜索数据库进行的更新
 
 -----
@@ -184,4 +190,4 @@ UPDATE pre_home_comment SET message=REPLACE(message,'old.com','new.com');
 
 ## 其他问题
 >其他人的问题
-后台登陆不了，被自动退出请把config/config_global.php中的$_config['admincp']['checkip'] = 1;修改为$_config['admincp']['checkip'] = 0;
+后台登陆不了，被自动退出请把`config/config_global.php`中的`$_config['admincp']['checkip'] = 1;`修改为`$_config['admincp']['checkip'] = 0;`

@@ -51,11 +51,11 @@ xmanage数据
 <br>chrome下载时好像不需要挂ss，挂ss好像快？
 - 登陆微软(手机热点）
 - 安装软件
-- 更新win10
-- 安装bash on ubuntu
-- 配置git
-- 配置ruby
 - steam
 等安装在非系统盘直接打开恢复
+- 配置git
+- 配置ruby
+- 配置xamp
 - 登陆邮箱，同步日程邮件
-
+- 更新win10
+- 安装bash on ubuntu
