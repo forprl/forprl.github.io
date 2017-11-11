@@ -40,6 +40,7 @@ xmanage数据
 - inode
 - 7z
 - xamp 
+- Adobe DC
 
 ## 3重装后
 
