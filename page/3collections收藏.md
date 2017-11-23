@@ -10,4 +10,5 @@ type: page
 {:toc}
 
 ## 工具
+- [App 软件下载测试](https://cndaqiang.github.io/2017/11/23/appstore/)
 ## Other blogs
