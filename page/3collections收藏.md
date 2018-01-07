@@ -14,4 +14,6 @@ type: page
 
 
 - [在线video转gif](https://ezgif.com/)
+
+- [dll下载](https://cn.dll-files.com/)
 ## Other blogs
