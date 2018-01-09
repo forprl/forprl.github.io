@@ -304,6 +304,19 @@ chgrp 用户组 文件
 chmod 762 文件
 ```
 设置文件的所有者，所有者所在用户组其他成员，其他成员权限分别为7，6，2
+### 进入单用户模式
+参考<br>
+[ubuntu 通过grub进入单用户root模式，已进行密码的修改](http://www.tk4479.net/hero9881010love/article/details/44202137)
+<br>在安装配置的过程中，或者在添加开机启功项时，可能错误配置导致无法开机，可以进入单用户模式改回配置，或者重新设置密码等选项<br>
+- 开机进入GRUB
+- 选择Advanced options for Ubuntu
+- 选中recovery mode
+- 按e进入编辑状态
+- 将**linux开头**那行的"ro recovery nomodeset"改为 “rw single init=/bin/bash”
+<br>(注意：ro 是只读模式，rw是读写模式。)
+- 按Ctrl + x, 进入单用户模式
+
+
 ### 网络
 #### ifconfig [网络设备] [参数]
 >用ifconfig命令配置的网卡信息，在网卡重启后机器重启后，配置就不存在。要想将上述的配置信息永远的存的电脑里，那就要修改网卡的配置文件了。
@@ -415,6 +428,30 @@ iwconfig
 <br>连接无密码的无线网 `sudo iwconfig wlp3s0 essid 网络SSID`或`sudo iw dev wlp3s0 connect 网络SSID`
 <br>**连接无线网后，需启动dhcp才能获得ip**
 <br>通过dhcp获取IP　`sudo dhclient wlp3s0`
+<br>连接上网络后，可以下载`wpasupplicant`认证wpa或wpa2协议的无线了`sudo apt install wpasupplicant`
+- 新建`/etc/wpa_supplicant/wpa_supplicant.conf`文件，填入<br>
+```
+network={
+ssid="网络SSID"
+psk="密码"
+priority=1
+}
+```
+- 启动wifi<br>
+```
+sudo wpa_supplicant -i wlp3s0 -c /etc/wpa_supplicant/wpa_supplicant.conf
+```
+- 获取ip<br>
+```
+sudo dhclient wlp3s0
+```
+- 设置开机自动连wifi<br>
+修改`/etc/rc.local`填入
+```
+wpa_supplicant -i wlp3s0 -c /etc/wpa_supplicant/wpa_supplicant.conf &
+dhclient wlp3s0
+```
+
 
 ### netstat
 查看与IP、TCP、UDP和ICMP协议相关的统计数据
