@@ -30,8 +30,8 @@ mathjax: true
 - mpi
 <br>intel编译器包含mpi，也可使用openmpi<br>
 最后使用openmpi<br>
-- MKL库<br>
-<br>有Intel的MKL,GotoBlas,ATLAS<br>
+- MKL库
+<br>有Intel的MKL,GotoBlas,ATLAS
 <br>这次使用Intel的MKL<br>
 设置BLACS,LAPACK
 - FFT
@@ -49,7 +49,7 @@ mathjax: true
 实验室的台式机
 <br>ubuntu server 16.04.3 
 <br>Intel(R) Core(TM) i5-3450 CPU @ 3.10GHz
-<br>这次是安装在单用户目录下面，而且过程都是编译，感觉与linux的那个发行版关系不大
+<br>这次是安装在单用户目录下面，而且过程都是编译，感觉与linux的哪个发行版关系不大
 ## 安装依赖
 直接安装`l_ccompxe_`时提示缺少依赖,安装下面包后解决(下面的包应该是安装多了)
 ```
@@ -71,7 +71,7 @@ cd l_fcompxe_2011.6.233/
 ```
 安装时，选择单用户安装(root用户安装也可以，会安装到`/opt/intel`)，使用lic文件激活,其他保持默认<br>
 文件最终安装在`用户目录/intel`中，如`/home/cndaqiang/intel`，以后编译设置里面的`/home/cndaqiang/intel`替换为你对应的目录即可
-<br>同理安装`l_fcompxe_2011.6.233`
+<br><br>同理安装`l_fcompxe_2011.6.233`
 
 ### 添加环境变量
 是为了输入`ifort`等命令直接运行，不添加环境变量则要在makefile里指明编译器的位置如`FCC=/目录.../ifort`<br>
