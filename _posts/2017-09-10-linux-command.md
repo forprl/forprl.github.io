@@ -400,6 +400,22 @@ vi /etc/resolv.conf
 ```
 添加`nameserver DNS的ip地址`
 其他参数教程中的参数表达意思我还不理解，展示不记录
+
+#### 无线网配置
+参考
+<br>[ubuntu下命令行连接wifi](http://blog.csdn.net/gujing001/article/details/8309992)
+<br>[在命令行中管理 Wifi 连接](https://linux.cn/article-4015-1.html)
+<br>查看无线网卡名称
+```
+iwconfig
+```
+例如我的无线网卡名是`wlp3s0`，下面出现该名指代无线网卡名称
+<br>开启服务`sudo ip link set wlp3s0 up`或`sudo ifconfig wlp3s0 up`
+<br>搜索无线网` sudo iwlist wlp3s0 scan`
+<br>连接无密码的无线网 `sudo iwconfig wlp3s0 essid 网络SSID`或`sudo iw dev wlp3s0 connect 网络SSID`
+<br>**连接无线网后，需启动dhcp才能获得ip**
+<br>通过dhcp获取IP　`sudo dhclient wlp3s0`
+
 ### netstat
 查看与IP、TCP、UDP和ICMP协议相关的统计数据
 ```
@@ -416,20 +432,6 @@ netstat -a
 
 ![](http://upload-images.jianshu.io/upload_images/4575564-d4975672965a6cae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-#### 无线网配置
-参考
-<br>[ubuntu下命令行连接wifi](http://blog.csdn.net/gujing001/article/details/8309992)
-<br>[在命令行中管理 Wifi 连接](https://linux.cn/article-4015-1.html)
-<br>查看无线网卡名称
-```
-iwconfig
-```
-例如我的无线网卡名是`wlp3s0`，下面出现该名指代无线网卡名称
-<br>开启服务`sudo ip link set wlp3s0 up`或`sudo ifconfig wlp3s0 up`
-<br>搜索无线网` sudo iwlist wlp3s0 scan`
-<br>连接无密码的无线网 `sudo iwconfig wlp3s0 essid 网络SSID`或`sudo iw dev wlp3s0 connect 网络SSID`
-<br>**连接无线网后，需启动dhcp才能获得ip**
-<br>通过dhcp获取IP　`sudo dhclient wlp3s0`
 ### ln [参数][源文件或目录][目标文件或目录]
 
 **目录为绝对路径**
