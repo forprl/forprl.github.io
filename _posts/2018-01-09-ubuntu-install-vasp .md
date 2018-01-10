@@ -42,13 +42,16 @@ mathjax: true
 编译无需root操作，个人将所有软件安装在自己目录里也可以<br>
 编译vasp时，在makefile文件中设置编译器,MKL,MPI,FFT，
 <br>因此，可以在服务器上安装多个版本的编译器,MKL,MPI,FFT，选则合适的makefile，修改makefile中相应的目录即可<br>
-仅编译安装vasp并不需要很大的计算量，对材料的计算可能需要很大
+仅编译安装vasp并不需要很大的计算量，对材料的计算可能需要很大<br>
+在实验室台式机上编译intel_2011和vasp5.4正常，尝试在1核1G内存腾讯云服务器编译失败,查看后台内存占用接近峰值时编译失败，增加虚拟内存后，编译正常进行，如图。所以我之前用parallel_studio_xe_2013/2018和vasp5.4/5.3编译失败的原因很大可能是服务器内存不够了<br>
+![](/uploads/2018/01/vaspinstall.png)
 
 # 安装
 ## 安装环境
 实验室的台式机
 <br>ubuntu server 16.04.3 
 <br>Intel(R) Core(TM) i5-3450 CPU @ 3.10GHz
+<br> 6G内存
 <br>这次是安装在单用户目录下面，而且过程都是编译，感觉与linux的哪个发行版关系不大
 ## 安装依赖
 直接安装`l_ccompxe_`时提示缺少依赖,安装下面包后解决(下面的包应该是安装多了)
@@ -66,7 +69,7 @@ sudo apt-get install g++-multilib
 解压安装icc
 ```
 tar xzvf l_ccompxe_2011.6.233
-cd l_fcompxe_2011.6.233/
+cd l_ccompxe_2011.6.233/
 ./install
 ```
 安装时，选择单用户安装(root用户安装也可以，会安装到`/opt/intel`)，使用lic文件激活,其他保持默认<br>

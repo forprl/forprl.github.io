@@ -560,6 +560,31 @@ apt-get remove --purge 软件名称
 ```
 适合修改vsftpd软件配置文件后，用apt-get remove vsftpd卸载不干净，重装配置文件不变
 
+## 虚拟内存
+参考[宁哥的小站-Linux下如何添加虚拟内存](http://www.lining0806.com/linux%E4%B8%8B%E5%A6%82%E4%BD%95%E6%B7%BB%E5%8A%A0%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98/)
+查看内存
+```
+free -h
+```
+添加虚拟内存文件
+```
+dd if=/dev/zero of=/mnt/swapfile bs=1M count=2048
+```
+>其中，if表示input_file输入文件，of表示output_file输出文件，bs表示block_size块大小，count表示计数。这里，采用了数据块大小为1M，数据块数目为2048，这样分配的空间就是2G大小。
+
+格式化交换文件：
+````
+mkswap /mnt/swapfile
+```
+挂载交换文件：
+```
+swapon /mnt/swapfile
+```
+开机挂载
+在`/etc/fstab`文件中加入
+```
+/mnt/swapfile swap swap defaults 0 0
+```
 ## 参考
 [peida-博客-每天一个linux命令目录](http://www.cnblogs.com/peida/)
 
