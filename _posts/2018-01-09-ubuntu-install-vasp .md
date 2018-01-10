@@ -10,7 +10,7 @@ mathjax: true
 * content
 {:toc}
 这两天安装vasp可要被折腾死了，虽然组里服务器上有vasp，可是自己还没有进行计算的经验，在服务器上乱提交作业，被发现就不好了，还是在自己服务器上学习更放心大胆一些。
-<br>这几天尝试了,好多个版本的编译器，vasp编译过4.6,5.3都失败了，最后发现这个帖子[[VASP] 教你从头编译vasp-5.4.1](http://bbs.keinsci.com/forum.php?mod=viewthread&tid=4267&highlight=vasp)提供的2011版的icc,ifort,icpc编译vasp5.4没有问题,需要的相关文件可以在帖子中找到链接，因为涉及vasp版权的问题，不公开传播源码
+<br>这几天尝试了,好多个版本的编译器，vasp编译过4.6,5.3都失败了，最后发现这个帖子[[VASP] 教你从头编译vasp-5.4.1](http://bbs.keinsci.com/forum.php?mod=viewthread&tid=4267&highlight=vasp)提供的2011版的icc,ifort,icpc编译vasp5.4没有问题,成功在台式机,云服务器，windows10上bash编译完成.需要的相关文件可以在帖子中找到链接，因为涉及vasp版权的问题，不公开传播源码
 
 
 
@@ -24,9 +24,10 @@ mathjax: true
 # 总述
 安装VASP主要需要这几个部分
 - 编译环境,编译器<br>
-常使用linux+ifc(intel icc ifort)
+这里使用linux+ifc(intel icc ifort)
 <br>intel的parallel_studio_xe编译器包含MKL,MPI,
 <br>网上和intel网站有parallel_studio_xe_2013和2015的安装成功记录，我没有成功，最后使用2011版的l_ccompxe_2011 l_fcompxe_2011 
+<br>使用其他编译器也可以，要选择合适的makefile文件并修改正确
 - mpi
 <br>intel编译器包含mpi，也可使用openmpi<br>
 最后使用openmpi<br>
@@ -52,6 +53,12 @@ mathjax: true
 <br>Intel(R) Core(TM) i5-3450 CPU @ 3.10GHz
 <br> 6G内存
 <br>这次是安装在单用户目录下面，而且过程都是编译，感觉与linux的哪个发行版关系不大
+<br>另外，1核1G内存2G交换分区腾讯云主机也成功安装
+<br>windows10上的bash 8G内存 Intel(R) Core(TM) i7-7500U CPU @ 2.70GHz，也安装完成
+<br>windows10上的bash安装注意
+- 建议关闭windows defender后安装
+- intel编译器安装过程教卡，耐心等待
+- 最后编译vasp大约用时30分钟
 ## 安装依赖
 直接安装`l_ccompxe_`时提示缺少依赖,安装下面包后解决(下面的包应该是安装多了)
 ```
@@ -63,6 +70,12 @@ sudo apt-get install lib32stdc++6
 sudo apt-get install libc6-dev-i386
 sudo apt-get install g++-multilib
 ```
+**另外，windows10的bash还需安装**
+```
+sudo apt install flex
+sudo apt install texinfo
+```
+
 ## intel编译器
 ### 安装
 解压安装icc
