@@ -57,7 +57,7 @@ mathjax: true
 <br>windows10上的bash 8G内存 Intel(R) Core(TM) i7-7500U CPU @ 2.70GHz，也安装完成
 <br>windows10上的bash安装注意
 - 建议关闭windows defender后安装
-- intel编译器安装过程教卡，耐心等待
+- intel编译器安装过程较卡，耐心等待
 - 最后编译vasp大约用时30分钟
 ## 安装依赖
 直接安装`l_ccompxe_`时提示缺少依赖,安装下面包后解决(下面的包应该是安装多了)
