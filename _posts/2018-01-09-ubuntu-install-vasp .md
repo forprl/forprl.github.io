@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "ubuntu 16.04 安装 vasp"
+title:  "VASP安装和运行 "
 date:   2018-01-09 21:15:00 +0800
 categories: DFT
 tags: vasp
@@ -30,10 +30,9 @@ mathjax: true
 - mpi
 <br>intel编译器包含mpi，也可使用openmpi<br>
 最后使用openmpi<br>
-- MKL库
+- 数学库BLACS,LAPACK
 <br>有Intel的MKL,GotoBlas,ATLAS
 <br>这次使用Intel的MKL<br>
-设置BLACS,LAPACK
 - FFT
 <br>vasp自带fft，也使用额外的fftw
 <br>最后使用fftw
@@ -177,7 +176,54 @@ vasp_gam  vasp_ncl  vasp_std
 - vasp_std  /标准版本的vasp
 - vasp_ncl  /非线性版本的vasp
 
+`vasp_gam  vasp_ncl  vasp_std`三个文件夹里面分别有一个可执行程序vasp
+## 添加环境变量
+把VASP添加到PATH后，可以通过直接输入vasp运行<br>
+例如我,新建了一个文件夹，里面创建三个软连接，分别指向三个版本的vasp，再将该目录设置为PATH目录，通过`vasp_gam`,`vasp_ncl`,`vasp_std`分别运行三个版本的vasp
+```
+mkdir ~/soft/vasp
+cd ~/soft/vasp
+ln -s /home/ubuntu/VAPS_install/vasp5.4/vasp.5.4.1/build/gam/vasp vasp_gam
+ln -s /home/ubuntu/VAPS_install/vasp5.4/vasp.5.4.1/build/ncl/vasp vasp_ncl
+ln -s /home/ubuntu/VAPS_install/vasp5.4/vasp.5.4.1/build/std/vasp vasp_std
+```
+在`~/.bashrc`中添加
+```
+export PATH=/home/ubuntu/soft/vasp:$PATH
+```
+编译`~/.bashrc`
+```
+source ~/.bashrc
+```
+或使用完整路径，如`/home/ubuntu/VAPS_install/vasp5.4/vasp.5.4.1/build/gam/vasp`也可以<br>
+
+# 简单运行vasp
+>生成输入文件->vasp->输出文件
+
+## 运行
+新建一个文件夹，里面放入输入文件(第一次可先搜索vasp实例得到下面的文件，之后再慢慢看每个文件的具体内容和编写方法),命名如下
+```
+INCAR  KPOINTS  POSCAR  POTCAR
+```
+直接运行(这里的`vasp_std`是我之前添加的快捷命令,可以用`/home/ubuntu/VAPS_install/vasp5.4/vasp.5.4.1/build/std/vasp`替换)
+```
+vasp_std
+```
+生成输出文件,如
+```
+ubuntu@VM-10-194-ubuntu:~/work/1_1_O_atom$ ls
+CHG     CONTCAR  EIGENVAL  KPOINTS  OUTCAR  POSCAR  REPORT       WAVECAR
+CHGCAR  DOSCAR   INCAR     OSZICAR  PCDAT   POTCAR  vasprun.xml  XDATCAR
+```
+
+## 输入输出文件
+输入输出文件的编写规则和vasp使用的相关教程资源就非常多了，不适合在这里整理了
+
 ## 后记
 参考的教程太多了，恕不把每个链接放上了，仅再此感谢小木虫csdn计算化学公社等优秀的网友<br>
 以后有时间，再整理一次makefile里面的参数对应哪些，串行，并行，其他mkl库，fftw等，先这样用着吧，先去学习vasp了
+
+
+
+
 
