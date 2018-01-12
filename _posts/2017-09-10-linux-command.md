@@ -585,6 +585,69 @@ swapon /mnt/swapfile
 ```
 /mnt/swapfile swap swap defaults 0 0
 ```
+
+## 添加PATH
+编译完软件后,如果不是安装到系统PATH路径，则需要将安装路径添加到系统的PATH路径<br>
+执行命令，报错`xxxx : command not found`,可能没有安装相关软件，或者PATH中不包含该命令<br>
+修改`/etc/profile`(所有用户)或者`~/.bashrc`(单个用户)
+<br>加入
+```
+export PATH=目录:$PATH
+```
+说明:
+- `/etc/profile`对所有用户，登陆时会读取里面的PATH
+- `~/.bashrc`,单个用户的PATH登陆时读取自己home目录下面的`.bashrc`文件
+- 修改后`exit`,重新登陆，修改内容生效
+- 立即生效，执行`source 文件名`，**仅对执行该命令的用户有效**
+
+### sudo的PATH
+有时执行`sudo `时提示`xxxx : command not found`，但是却有该命令,原来，sudo的PATH路径不是普通用户或root的路径，这时可以`sudo su`后执行，或更改sudo的PATH<br>
+```
+sudo visudo
+```
+修改添加此行内容
+```
+Defaults        secure_path=
+```
+看来我以后，还是用`sudo su`吧
+
+## 用户管理
+参考
+<br>[一天一点linux(18):adduser和useradd的区别](https://segmentfault.com/a/1190000007316406)
+<br>[linux用户管理（1）----创建用户（adduser和useradd）和删除用户（userdel）](http://blog.csdn.net/beitiandijun/article/details/41678251)
+
+### 添加用户
+- `adduser username`
+<br>会自动为创建的用户指定主目录、系统shell版本，会在创建时输入用户密码。
+<br>创建密码`passwd username`
+- `useradd username`
+<br>需要使用参数选项指定上述基本设置，如果不使用任何参数，则创建的用户无密码、无主目录、没有指定shell版本
+
+## 切换用户
+```
+su username
+```
+
+### 删除用户
+```
+userdel -r mongo
+```
+>-r参数删除用户mongo的同时，将其宿主目录和系统内与其相关的内容删除
+
+## 一些好玩的命令
+### sleep
+```
+#sleep命令常用于在shell脚本中延迟时间
+#延迟n秒
+sleep <n>
+sleep <n>s
+#延迟<n>分钟
+sleep <n>m
+#延迟<n>小时
+sleep <n>h
+#延迟<n>天
+sleep <n>d
+```
 ## 参考
 [peida-博客-每天一个linux命令目录](http://www.cnblogs.com/peida/)
 

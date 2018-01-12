@@ -10,12 +10,12 @@ mathjax: true
 * content
 {:toc}
 这两天安装vasp可要被折腾死了，虽然组里服务器上有vasp，可是自己还没有进行计算的经验，在服务器上乱提交作业，被发现就不好了，还是在自己服务器上学习更放心大胆一些。
-<br>这几天尝试了,好多个版本的编译器，vasp编译过4.6,5.3都失败了，最后发现这个帖子[[VASP] 教你从头编译vasp-5.4.1](http://bbs.keinsci.com/forum.php?mod=viewthread&tid=4267&highlight=vasp)提供的2011版的icc,ifort,icpc编译vasp5.4没有问题,成功在台式机,云服务器，windows10上bash编译完成.需要的相关文件可以在帖子中找到链接，因为涉及vasp版权的问题，不公开传播源码
+<br>这几天尝试了,好多个版本的编译器，vasp编译过4.6,5.3都失败了，最后发现这个帖子[[VASP] 教你从头编译vasp-5.4.1](http://bbs.keinsci.com/forum.php?mod=viewthread&tid=4267&highlight=vasp)提供的2011版的icc,ifort,icpc编译vasp5.4没有问题,成功在台式机,云服务器，windows10上bash编译完成.需要的相关文件可以在帖子中找到链接，因为涉及vasp版权的问题，不传播源码，
 
 
 
 
-，页面底部有我的联系邮箱(手动滑稽)
+
 
 
 
@@ -176,7 +176,7 @@ vi makefile.include
 - 38行设置fftw `OBJECTS    = fftmpiw.o fftmpi_map.o fftw3d.o fft3dlib.o /home/cndaqiang/soft/fftw/lib/libfftw3_mpi.a`
 - 39行设置fftw `INCS       =-I/home/cndaqiang/soft/fftw/include`
 
-开始编译
+开始编译,不建议加`-jn`命令，容易出错
 ```
 make all
 ```
