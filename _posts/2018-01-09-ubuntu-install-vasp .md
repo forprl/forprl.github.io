@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "VASP安装和运行 "
+title:  "Ubuntu VASP安装和运行 "
 date:   2018-01-09 21:15:00 +0800
 categories: DFT
 tags: vasp
@@ -9,8 +9,15 @@ mathjax: true
 ---
 * content
 {:toc}
+
+# 建议看此文[Intel Parallel Studio XE 编译VASP](/2018/01/15/intel-mpi-vasp/)更具有普遍性
+
+
+
+
+<br><br><br><br>
 这两天安装vasp可要被折腾死了，虽然组里服务器上有vasp，可是自己还没有进行计算的经验，在服务器上乱提交作业，被发现就不好了，还是在自己服务器上学习更放心大胆一些。
-<br>这几天尝试了,好多个版本的编译器，vasp编译过4.6,5.3都失败了，最后发现这个帖子[[VASP] 教你从头编译vasp-5.4.1](http://bbs.keinsci.com/forum.php?mod=viewthread&tid=4267&highlight=vasp)提供的2011版的icc,ifort,icpc编译vasp5.4没有问题,成功在台式机,云服务器，windows10上bash编译完成.需要的相关文件可以在帖子中找到链接，因为涉及vasp版权的问题，不传播源码，
+<br>这几天尝试了,好多个版本的编译器，vasp编译过4.6,5.3都失败了，最后发现这个帖子[[VASP] 教你从头编译vasp-5.4.1](http://bbs.keinsci.com/forum.php?mod=viewthread&tid=4267&highlight=vasp)提供的2011版的icc,ifort,icpc编译vasp5.4没有问题,成功在台式机,云服务器，windows10上bash编译完成.
 
 
 
@@ -20,7 +27,10 @@ mathjax: true
 
 
 
-
+# 需要的软件
+[编译器,fftw,openmpi](https://pan.baidu.com/s/1bqZFjkz),也可以去相应网站下载<br>
+[makefile.include](/web/file/2018/makefile.include),从`vasp.5.4.1/arch`中获得并修改<br>
+vasp.5.4,vasp.5.lib源码,百度可搜,请购买正版
 # 总述
 安装VASP主要需要这几个部分
 - 编译环境,编译器<br>
@@ -28,7 +38,7 @@ mathjax: true
 <br>intel的parallel_studio_xe编译器包含MKL,MPI,
 <br>网上和intel网站有parallel_studio_xe_2013和2015的安装成功记录，我没有成功，最后使用2011版的l_ccompxe_2011 l_fcompxe_2011 
 <br>使用其他编译器也可以，要选择合适的makefile文件并修改正确
-- mpi
+- 并行计算mpi
 <br>intel编译器包含mpi，也可使用openmpi<br>
 最后使用openmpi<br>
 - 数学库BLACS,LAPACK
@@ -59,6 +69,7 @@ mathjax: true
 - 建议关闭windows defender后安装
 - intel编译器安装过程较卡，耐心等待
 - 最后编译vasp大约用时30分钟
+
 ## 安装依赖
 直接安装`l_ccompxe_`时提示缺少依赖,安装下面包后解决(下面的包应该是安装多了)
 ```
@@ -228,7 +239,7 @@ ubuntu@VM-10-194-ubuntu:~/work/1_1_O_atom$ ls
 CHG     CONTCAR  EIGENVAL  KPOINTS  OUTCAR  POSCAR  REPORT       WAVECAR
 CHGCAR  DOSCAR   INCAR     OSZICAR  PCDAT   POTCAR  vasprun.xml  XDATCAR
 ```
-
+可以将自己的运算结果和[Materials Project](https://www.materialsproject.org)进行对比
 ## 输入输出文件
 输入输出文件的编写规则和vasp使用的相关教程资源就非常多了，不适合在这里整理了
 

@@ -589,6 +589,14 @@ swapon /mnt/swapfile
 ## 添加PATH
 编译完软件后,如果不是安装到系统PATH路径，则需要将安装路径添加到系统的PATH路径<br>
 执行命令，报错`xxxx : command not found`,可能没有安装相关软件，或者PATH中不包含该命令<br>
+
+### 仅此次登陆生效
+```
+source 包含路径的文件
+```
+文件的内容如下面的`/etc/profile`
+`exit`退出后失效
+### 永久生效
 修改`/etc/profile`(所有用户)或者`~/.bashrc`(单个用户)
 <br>加入
 ```
@@ -599,6 +607,7 @@ export PATH=目录:$PATH
 - `~/.bashrc`,单个用户的PATH登陆时读取自己home目录下面的`.bashrc`文件
 - 修改后`exit`,重新登陆，修改内容生效
 - 立即生效，执行`source 文件名`，**仅对执行该命令的用户有效**
+
 
 ### sudo的PATH
 有时执行`sudo `时提示`xxxx : command not found`，但是却有该命令,原来，sudo的PATH路径不是普通用户或root的路径，这时可以`sudo su`后执行，或更改sudo的PATH<br>
@@ -647,6 +656,24 @@ sleep <n>m
 sleep <n>h
 #延迟<n>天
 sleep <n>d
+```
+### scp
+参考[利用scp 远程上传下载文件/文件夹](http://www.cnblogs.com/no7dw/archive/2012/07/07/2580307.html)
+```
+#从服务器下载文件
+scp username@servername:/path/filename /tmp/local_destination
+#上传本地文件到服务器
+scp /path/local_filename username@servername:/path  
+#从服务器下载整个目录
+scp -r username@servername:remote_dir/ /tmp/local_dir 
+#上传目录到服务器
+scp  -r /tmp/local_dir username@servername:remote_dir
+```
+
+### 短时间内设置语言为英文
+装了centos,系统默认中文,安装软件报错不好搜索,短期设置为英文
+```
+export LANG=en_US.UTF-8
 ```
 ## 参考
 [peida-博客-每天一个linux命令目录](http://www.cnblogs.com/peida/)
