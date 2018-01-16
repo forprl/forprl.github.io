@@ -64,7 +64,7 @@ centos 7
 ```
 wget http://wpfilebase.s3.amazonaws.com/torque/torque-6.1.1.1.tar.gz
 tar xzvf torque-6.1.1.1.tar.gz
-cd torque-6.1.1.1.tar.gz
+cd torque-6.1.1.1
 ```
 主机名可改为master,我不改了,查看主机名为VM_10_194_centos
 ```
@@ -139,17 +139,15 @@ systemctl enable pbs_mom
 ```
 make packages
 ```
->若使用root打包，拷贝到其他机器上前更改所有者，
-```
-chown 普通用户名:普通用户所在组 torque-package-{clients,devel,doc,mom,server}-linux-x86_64.sh
-```
-此次我们单机安装，无需拷贝
 
 ## 初始化
 ```
+qterm
 ./torque.setup root
 ```
->如果`/etc/hosts`中主机名放在别名后面，会报错
+>qterm为终止pbs_server的运行,若不终止，无法初始化
+<br>有教程中说root应为普通用户名
+<br>如果`/etc/hosts`中主机名放在别名后面，会报错
 ```
 qmgr obj= svr=default: Bad ACL entry in host list MSG=First bad host: VM_10_194_centos
 ERROR: cannot set root@VM_10_194_centos in operators list
@@ -157,9 +155,11 @@ ERROR: cannot set root@VM_10_194_centos in operators list
 
 ## 启动程序
 ```
-for i in pbs_server pbs_sched pbs_mom trqauthd; do service $i restart; done
+for i in pbs_server pbs_sched pbs_mom ; do service $i restart; done
+trqauthd
 # centos7 还可以
-for i in pbs_server pbs_sched pbs_mom trqauthd; do systemctl restart $i ; done
+for i in pbs_server pbs_sched pbs_mom ; do systemctl restart $i ; done
+trqauthd
 ```
 `ps -e | grep pbs`可以查看启动情况
 ```
@@ -170,6 +170,11 @@ for i in pbs_server pbs_sched pbs_mom trqauthd; do systemctl restart $i ; done
 ```
 ## 配置节点
 ### 管理节点(调度节点,master)
+**注:**,每次初始化`./torque.setup <username>` ，会清空管理节点的配置信息,需重新配置<br>
+终止pbs_server
+```
+qterm
+```
 编辑`/var/spool/torque/server_priv/nodes`，填入管理节点主机名,如
 ```
 VM_10_194_centos np=8 normal
@@ -183,7 +188,8 @@ $logevent 255
 ```
 重启
 ```
-for i in pbs_server pbs_sched pbs_mom trqauthd; do service $i restart; done
+for i in pbs_server pbs_sched pbs_mom ; do service $i restart; done
+trqauthd
 ```
 查看节点
 ```
@@ -198,7 +204,7 @@ VM_10_194_centos
      mom_manager_port = 15003
 ```
 
-### 计算节点配置(单机没有必要操作?)
+### 计算节点配置
 由于这次是单机,计算节点和管理节点在同一机器，很多集权计算节点的配置不用做了<br>
 安装软件包
 ```
@@ -207,7 +213,8 @@ VM_10_194_centos
 ```
 重启
 ```
-for i in pbs_server pbs_sched pbs_mom trqauthd; do service $i restart; done
+for i in pbs_server pbs_sched pbs_mom ; do service $i restart; done
+trqauthd
 ```
 
 ### 创建队列
@@ -223,8 +230,15 @@ Qmgr:  (ctrl+d退出)
 ```
 重启
 ```
-for i in pbs_server pbs_sched pbs_mom trqauthd; do service $i restart; done
+for i in pbs_server pbs_sched pbs_mom ; do service $i restart; done
 ```
+### 注
+每次管理节点开机,都需要
+```
+trqauthd
+```
+和重新创建队列 
+
 ## 测试提交任务`qsub`
 ```
 [root@VM_10_194_centos torque]# su cndaqiang
@@ -243,8 +257,105 @@ Job ID                    Name             User            Time Use S Queue
 
 
 # 使用
+该部分主要参考[PBS](http://hydro.igsnrr.ac.cn/data/resources/PBS.pdf)
+<br>命令
+- 提交脚本
+```
+qsub <PBS作业脚本>
+```
+- 查询作业状态
+```
+cndaqiang@centos1:~$ qstat
+Job ID                    Name             User            Time Use S Queue
+------------------------- ---------------- --------------- -------- - -----
+8.centos1                  STDIN            cndaqiang              0 R normal
+```
+状态:E退出,Q排队,H挂起,R运行,C结束
+- 删除作业
+```
+qdel <Job ID>
+```
+- 挂起作业
+```
+qhold <Job ID>
+```
+- 取消挂起
+```
+qrls <Job ID>
+```
+- 交换作业顺序
+```
+qorder <Job ID> <Job ID>
+```
 
+## PBS脚本文件
+### 说明
+- 本质是一个SHELL脚本,和bash语法相同,可直接调用shell命令
+- `#`开头注释
+- `#PBS`开头是PBS运行参数
+- 环境变量
+<br>类似于PHP的魔术变量(预定义常量)
+![](/uploads/2018/01/pbs.png)
 
+### PBS运行参数
+可以在`qsub 运行参数 <作业脚本>`中设置<br>
+也可以在脚本中以`#PBS 运行参数`设置<br>
+`qsub 运行参数 <作业脚本>`设置的优先级更高<br>
+详细参数设置
+![](/uploads/2018/01/pbs2.png)
+
+### 运行VASP示例
+参考[北师-普通用户用pbs提交作业操作手册](http://cist.bnu.edu.cn/docs/20150427050417757608.docx)
+
+**pbs脚本中用中文注释会报错**`qsub:  file must be an ascii script`
+
+```
+#####PBS参数设置#####
+#PBS -N vasp
+#程序名
+#PBS -l nodes=1:ppn=3
+#节点,每个节点核数
+#PBS -l walltime=1:00:00:00
+#作业运行最大时间1天，估算自己的作业最大运行时间，这里指定一下
+#PBS -q batch
+# 添加到队列batch
+#PBS -V
+#定义环境变量范围
+#PBS -S /bin/bash 
+
+#####设置PATH#####
+source /opt/intel/compilers_and_libraries_2018.0.128/linux/bin/compilervars.sh intel64
+source /opt/intel/compilers_and_libraries_2018.0.128/linux/bin/iccvars.sh intel64 
+source /opt/intel/compilers_and_libraries_2018.0.128/linux/bin/ifortvars.sh intel64 
+source /opt/intel/compilers_and_libraries/linux/mkl/bin/mklvars.sh intel64
+source  /opt/intel/impi/2018.0.128/bin64/mpivars.sh
+
+#####计算#####
+cd $PBS_O_WORKDIR
+#进入工作目录
+EXEC=/home/cndaqiang/soft/vasp.5.4.1/build/std/vasp
+#vasp
+NP=`cat $PBS_NODEFILE | wc -l`
+#wc -l 统计行数
+#NP为 mpirun运行的np(number of processes,),核数
+NN=`cat $PBS_NODEFILE | sort | uniq | tee /tmp/cqiang_nodes.$$ | wc -l`
+#sort排序,uniq去除重复,tee重定向输出,$$代表shell本身的PID
+#NN为节点数
+cat $PBS_NODEFILE > /tmp/cqiang_nodefile.$$
+#存储节点进程信息
+mpirun -genv I_MPI_DEVICE rdssm -machinefile /tmp/cqiang_nodefile.$$ -n $NP $EXEC
+# -machinefile :指定加入运算的资源
+# -nolocal :本机器不参与运算
+# -np :处理器数量
+
+rm -rf /tmp/cqiang_nodefile.$$
+rm -rf /tmp/cqiang_nodes.$$
+```
+将脚本放于vasp输入文件同一目录
+```
+qsub <脚本名>
+```
+即可运行
 
 
 

@@ -18,7 +18,8 @@ mathjax: true
 
 # 编译注意
 - 硬盘空间足够
-<br>编译时会产生很多临时文件，占据空间大，Intel编译器Intel Parallel Studio XE 2018 for linux安装后占11G，安装包3.5G,硬盘空间不足编译失败
+<br>编译时会产生很多临时文件，占据空间大，Intel编译器Intel Parallel Studio XE 2018 for linux安装后占11G，安装包3.5G,硬盘空间不足编译失败<br>
+如果硬盘空间太小,可以尝试安装老版的intel编译器
 - 内存足够
 <br>使用fortran编译vasp时,内存1G编译过程中,进程被杀死，添加2G的虚拟内存，编译通过
 - 编译器最好一致
@@ -134,7 +135,7 @@ OBJECTS    = fftmpiw.o fftmpi_map.o fftw3d.o fft3dlib.o \
 INCS       =-I$(MKLROOT)/include/fftw
 ```
 
-最后我的[makefile.inclued](/web/file/2018/makefile.include_intelfftw/makefiel.include)<br>
+最后我的[makefile.inclued](/web/file/2018/makefile.include_intelfftw/makefile.include)<br>
 编译
 ```
 make
@@ -183,7 +184,7 @@ gfortran: command not found
 检查数学库文件名是否正确,数学库是否选对,如<br>
 `BLACS      = -lmkl_blacs_intelmpi_lp64`因为我们使用的是intel的mpi所以blacs使用`intelmpi`，若使用openmpi,则设置为`libmkl_blacs_openmpi_lp64`
 ## 使用fftw
-若不适用intel的fftw,下载fftw<br>
+若不使用intel的fftw,下载fftw<br>
 解压进入相关文件夹后,生成使用intel编译支持并行的makefile文件
 ```
 ./configure --prefix=/opt/fftw/ CC=icc F77=ifort MPICC=mpiicc --enable-mpi
@@ -201,3 +202,87 @@ INCS       =-I/opt/fftw/include
 ## fftw不支持mpi报错
 编译fftw时，若使用`make libintel64`，则编译的fftw不支持mpi,编译时会对`libfftw3xf_intel.a`报错
 
+## 报错
+### segmentation fault occurred
+```
+forrtl: severe (174): SIGSEGV, segmentation fault occurred
+Image              PC                Routine            Line        Source             
+vasp               00000000013CD4ED  Unknown               Unknown  Unknown
+libpthread-2.17.s  00007F66B288E5E0  Unknown               Unknown  Unknown
+```
+每次运行前在shell中执行
+```
+ulimit -s unlimited
+ulimit -m unlimited
+ulimit -c unlimited
+ulimit -d unlimited
+```
+再运行vasp<br>
+也可以,添加`ulimit -s unlimited`到`/etc/profile`或`~/.bashrc`，每次登陆自动执行<br>
+>在Linux下写程序的时候，如果程序比较大，经常会遇到“段错误”（segmentation fault）这样的问题,ulimit为shell内建指令，可用来控制shell执行程序的资源
+```
+  -a 　显示目前资源限制的设定。 
+  -c <core文件上限> 　设定core文件的最大值，单位为区块。 
+  -d <数据节区大小> 　程序数据节区的最大值，单位为KB。 
+  -f <文件大小> 　shell所能建立的最大文件，单位为区块。 
+  -H 　设定资源的硬性限制，也就是管理员所设下的限制。 
+  -m <内存大小> 　指定可使用内存的上限，单位为KB。 
+  -n <文件数目> 　指定同一时间最多可开启的文件数。 
+  -p <缓冲区大小> 　指定管道缓冲区的大小，单位512字节。 
+  -s <堆叠大小> 　指定堆叠的上限，单位为KB。 
+  -S 　设定资源的弹性限制。 
+  -t <CPU时间> 　指定CPU使用时间的上限，单位为秒。 
+  -u <程序数目> 　用户最多可开启的程序数目。 
+  -v <虚拟内存大小> 　指定可使用的虚拟内存上限，单位为KB
+```
+参考[vasp.5.3 错误 forrtl: severe (174): SIGSEGV, segmentation fault occurred](http://muchong.com/html/201711/6321998.html)
+
+### RLIMIT_MEMLOCK too small
+并行运算时
+```
+mpirun -genv I_MPI_DEVICE rdssm -machinefile host.fiel -n 4 /home/cndaqiang/soft/vasp.5.4.1/build/std/vasp
+[0] DAPL startup: RLIMIT_MEMLOCK too small
+```
+使用
+```
+ulimit -l unlimited
+```
+这条命令涉及root的权限，所以,添加到`/etc/profile`,也只能以root用户计算<br>
+**推荐解决方案**<br>
+参考[Best Known Methods for Setting Locked Memory Size](https://software.intel.com/en-us/blogs/2014/12/16/best-known-methods-for-setting-locked-memory-size)<br>
+修改`/etc/security/limits.conf`,填入
+```
+username  hard memlock unlimited
+username  soft memlock unlimited
+```
+参考组里服务器的配置,允许所有用户,设置为
+```
+* soft memlock unlimited
+* hard memlock unlimited
+* soft memlock unlimited
+* soft stack unlimited
+* soft nproc unlimited
+* hard memlock unlimited
+* hard stack unlimited
+* hard nproc unlimited
+```
+reboot重启生效
+
+### [未解决]dapl fabric is not available and fallback fabric is not enabled
+并行运算时
+```
+mpirun -genv I_MPI_DEVICE rdssm -machinefile host.fiel -n 4 /home/cndaqiang/soft/vasp.5.4.1/build/std/vasp
+[0] MPI startup(): dapl fabric is not available and fallback fabric is not enabled
+```
+DEBUG后
+```
+cannot open dynamic library libdat2.so.2
+```
+处理方案是修改`/etc/dat.conf`填入类似
+```
+ofa-v2-mlx5_0-1u u2.0 nonthreadsafe default libdaploucm.so.2 dapl.2.0 "mlx5_0 1" ""
+```
+的东西,参考[
+Using Connect-IB with Intel MPI](https://community.mellanox.com/groups/hpc/blog/2013/10/29/some-notes-for-using-connect-ib-with-intel-mpi)<br>
+[dapl fabric is not available and fallback fabric is not enabled with IMPI 4.0.0](https://software.intel.com/en-us/forums/intel-clusters-and-hpc-technology/topic/290764)<br>
+不想看了,以后再解决,先去掉` -genv I_MPI_DEVICE rdssm`参数运行
