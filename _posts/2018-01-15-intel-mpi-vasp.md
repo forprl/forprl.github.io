@@ -32,6 +32,16 @@ mathjax: true
 - PATH
 <br>安装软件后,软件执行文件所在目录被添加到系统PATH路径后，才能在shell里直接输入命令如`icc`,不添加则需要使用`/opt/intel/bin/icc`运行
 <br>添加PATH的方法，参考[添加PATH](/2017/09/10/linux-command/#%E6%B7%BB%E5%8A%A0path)
+- 编译选项
+<br>`configure -h`可以查看生成makefile的编译选项,如CC(C编译器)FC(Fortran编译器)MPICC(并行CC)MPIFC(并行FC)enable-mpi(执行并行)
+<br>编译并行fftw时,制定intel
+```
+./configure --prefix=/opt/fftw/ CC=icc F77=ifort MPICC=mpiicc --enable-mpi
+```
+<br>编译siesta
+```
+../Src/configure  FC=ifort CC=icc MPIFC=mpiifort --enable-mpi
+```
 <br><br>
 # vasp编译说明
 建议认真读一下vasp4.6的makefile文件,里面说的很详细[makefile.linux_ifc_P4](/web/file/2018/makefile.linux_ifc_P4)，还有VASP.5.4.1里面的README
@@ -100,7 +110,8 @@ source  /opt/intel/impi/2018.0.128/bin64/mpivars.sh
 修改`/etc/profile`或`~/.bashrc`中就无需上述操作,登陆时source一下或着添加到文件永久修改都可以,看个人喜好
 ### 编译并行fftw
 下面的路径与实际路径与intel编译器的版本有关,版本变更后适当修改<br>
-`make -h`可确定使用intel编译器编译并行版本的fftw命令为`make libmic`
+`make -h`可**不是很确定**使用intel编译器编译并行版本的fftw命令为`make libmic`<br>
+如果结果不并行,建议使用此文后面所说的下载编译并行fftw方式
 ```
 cd /opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/interfaces/fftw3xf
 make libmic
