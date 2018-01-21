@@ -675,6 +675,12 @@ scp  -r /tmp/local_dir username@servername:remote_dir
 ```
 export LANG=en_US.UTF-8
 ```
+
+### 产生等差数列
+```
+seq 初值 步长 终值
+```
+
 ## 参考
 [peida-博客-每天一个linux命令目录](http://www.cnblogs.com/peida/)
 
