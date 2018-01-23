@@ -10,12 +10,13 @@ mathjax: true
 * content
 {:toc}
 整理备查
-
+vasp的[manual](http://cms.mpi.univie.ac.at/vasp/vasp/vasp.html)值得一读<br>
+看资料遇到陌生的参数,查manual就好了
 
 
 
 ## 说明
-输入文件POSCAR，KPOINT，POTCAR，INCAR等,尝试用`!`注释，还没发现问题,还是先不要注释了吧
+输入文件POSCAR，KPOINT，POTCAR，INCAR等,用`#`注释
 ## POSCAT 赝势
 ### 产生
 来源VASP官网提供<br>
@@ -35,8 +36,9 @@ potpaw_PBE ==> PAW, GGA, PBE<br>
 <br>LEXCH=91(PW91赝势) GGA=91 VOSKOWN=1
 <br>LEXCH=PE GGA=PE VOSKOWN不设置
 
-## KPOINT K点
-布里渊区K点采样方式
+## KPOINTS K点
+**是KPOINTS,不是KPOINT**
+<br>布里渊区K点采样方式
 ### 产生
 #### 自动
 ```
@@ -46,6 +48,7 @@ M/G            M表示采用Monkhorst-Pack方法生成K点坐标，G表示一定
 K1 K2 K3       K-mesh取K1xK2xK3网格，
 0 0 0            原点平移大小
 ```
+bbs.推荐用G
 - K1 K2 K3的取值,使得K1*a=K2*b=K3*c，a,b,c为POSCAR中基失长度
 ![](/uploads/2018/01/k1k2k3mesh.jpg)
 ![](/uploads/2018/01/k1k2k3mesh2.jpg)
@@ -71,7 +74,8 @@ Ref：10.1016/j.commatsci.2010.05.010
 #### 手动定义各K点的坐标(一般仅在计算HSE能带结构时使用)：
 
 ### 说明
-(个人感觉，在不计算能带时Auto就行)
+bbs.与结构优化相比,算DOS的时候,需要用到更多的K点数目,这是因为K点越多,画出来的DOS图质量越高
+<br>一般来说,K * a = 45 左右之间完全可以满足要求
 
 ## POSCAR 晶格参数原子位置
 ### 产生
@@ -98,17 +102,8 @@ Direct  Direct分数坐标,Car实际坐标单位为埃
 ## INCAR
 计算的方式和内容<br>
 可以内容为空保持默认,但不能没有该文件
-### ENCUT 平面波截断能
-例,单位eV
-```
-ENCUT=250
-```
-侯:推荐手动输入
-### PREC计算精度
-决定ENCUT,FFT的网格大小和ROPT的默认值
-```
-PREC=Low|Medium|High|Normal|Accurate
-```
+### system=xxx
+注释
 ### ISATRT ICHARG INIWAV
 - ISATART初始波函数产生方法
 <br>默认存在WAVECAR时取1,否则0
@@ -137,24 +132,156 @@ ISATRT=1 ICHARG=1
 ```
 ISATRT=1 ICHARG=11
 ```
+
+### EDIFF EDIFFG
+EDIFF,EDIFFG 是控制收敛标准的两个参数。
+- EDIFF 电子自洽过程(单个离子步内),能量的差别取值为1E-4或者1E-5即可
+- EDIFFG 结构优化的过程
+<br>力作为收敛标准,此时EDIFFG为负值。一般来说取值在-0.01到-0.05之间
+<br>使用能量作为标准:此时,EDIFFG 为正值,一般为0.001-0.0001
+<br>如EDIFFG=-0.03或EDIFF=0.001
+
+### ISPIN MAGMOM
+由体系决定<br>
+ISPIN=0(默认) 不考虑自旋
+<br>ISPIN=2 考虑自旋，电子分为α,β电子计算计算,考虑磁性
+<br>当ISPIN=2时,可指定体系的初始磁矩MAGMOM
+- 格式
+```
+MAGMOM=原子种类1*自旋磁矩 原子种类2*自旋磁矩 ...
+```
+- 对于简单体系来说，MAGMOM可以采用默认值；
+- MAGMOM设置的时候，初始值不要求与实验值完全一致，一般取大些（1.5倍）比较好
+
+### IBRION NFREE NSW ISIF
+如果体系不收敛,或者计算不符合物理图像时,进行结构优化,调整IBRION的值
+- IBRION=3：你的初始结构很差的时候；
+- IBRION=2：共轭梯度算法，很可靠的一个选择，一般来说都用它。(用于结构优化)
+- IBRION=1：用于小范围内稳定结构的搜索
+- IBRION=5,6等参考[VASP_manual](http://cms.mpi.univie.ac.at/vasp/vasp/IBRION_5_IBRION_6.html)配合NFREE,POTIM用于计算震动频率,IBRION = 6和ISIF=3 用于计算弹性常数等<br>
+NFREE 确定每个方向和离子使用多少个位移，POTIM确定步长。如果在输入文件中提供的值太大，则步长POTIM默认为0.015(VASP.5.1)
+
+NSW 控制几何结构优化的步数
+<br>默认为0不进行优化,所以结构优化时必须设置
+- NSW=最大优化步数 <br>一般来说，简单的体系200步内就可以正常结束。初始结构很差，或者设置了很严格的收敛标准，可取NSW=500或者更大
+- 输出文件OSZICAR可以看到最终优化的步数,若优化步数小于NSW值表明达到收敛标准,- 若优化步数大于等于NSW值,可能
+<br> 1. NSW设置的偏小； 
+<br> 2. 初始结构不合理，计算需要更多的离子驰豫过程； 
+<br> 3. 设置的收敛标准太严格， 比如：-0.01 或者 -0.001； 
+<br> 4. 结构很复杂，每一离子步中的电子步骤收敛很困难
+<br> 5. 刚好收敛，可以通过OUTCAR中是否有`reached required accuracy - stopping structural energy minimisation`判断
+
+ISIF控制离子运动中计算应力张量，IBRION=0时默认0,其他情况默认2，常用2,3
+![](/uploads/2018/01/isif.JPG)
+
+### NELM
+对应NSW为结构优化步数,NELM为电子优化步数,默认为60
+<br>OSZICAR中,`DAV:   `后面跟着电子计算步数,若达到60停止计算，结果基本上无不符合物理规律
+<br>
+
+优化总结:
+- 电子步（SCF）: EDIFF精度 <====> NELM计算步数 
+- 离子步（结构优化）：EDIFFG 精度<====> NSW计算步数
+
+bbs.如果达到最大优化步数60
+- 1.如果第一个离子步中：SCF（也就是电子步）的计算不收敛，尝试下增加NELM的值；可以疯狂些： NELM = 500或者更高；
+
+- 2.检查下初始结构是否合理(比如与实验值查太大,原子距离过小)，如果合理，且加大NELM后依然不收敛，尝试下改变AMIX，BMIX，官网推荐的参数如下：<br>
+<div align="center" ><img src="/uploads/2018/01/NELM.jpeg" /></div>
+- 3.第一个离子步收敛了，后面的不收敛，能量变的极大，首先应该想到的是去检查结构，一般在结构不合理的时候会出现类似的情况；调整结构再提交任务。
+<br>第一直觉是去看结构而不是想着调节参数去怎么解决这个错误！！！
+<br>结构不合适,调大了也没用
+
+### POTIM
+在结构优化`IBRION=2`时,尝试移动原子的位置大小有POTIM决定<br>
+默认值是0.50，可能造成过度移动最后没法矫正回来,可以设置的参数小一些如0.2<br>
+初始结构不合理时,缩小POTIM的值可以降低过渡优化结果不符的可能<br>
+
+**搭建好初始模型才是最省心的**
+
+
+### ENCUT 平面波截断能
+例,单位eV
+```
+ENCUT=250
+```
+侯:推荐手动输入<br>
+bbs.计算多个元素进行对比时，建议统一固定一个值450是一个很安全的选择
+### PREC计算精度
+决定ENCUT,FFT的网格大小和ROPT的默认值
+```
+PREC=Low|Medium|High|Normal|Accurate
+```
+
 ### GGA VOSKOWN
 POTCAR中的LEXCH与INCAR中GGA的设置对应
 <br>LEXCH=CA(LDA赝势) GGA不设置 VOSKOWN不设置
 <br>LEXCH=91(PW91赝势) GGA=91 VOSKOWN=1
 <br>LEXCH=PE GGA=PE VOSKOWN不设置
 ### ISMEAR SIGMA
-ISMEAR用来确定如何或用何种方法来设置每个波函数的部分占有数fnk。在采用有限
-温度方法设置fnk时，smearing方法中的smearing宽度σ
+ISMEAR用来确定如何确定电子的部分占有数。
 - ISMEAR = -5，表示采用Blochl修正的四面体方法
-<br>进行任何的静态计算或态密度计算，且k点数目大于4时，取ISMEAR = -5
-<br>半导体或绝缘体的计算（不论是静态还是结构优化），取ISMEAR = -5
+<br>侯(侯柱峰老师).进行任何的静态计算或态密度计算，且k点数目大于4时，取ISMEAR = -5
+<br>bbs.对所有体系,更加精确的时候用-5
+<br>在DOS能带计算中,使用ISMEAR=-5画出的图形更平滑
+<br>结构优化时不能使用ISMEAR=-5,计算DOS,结构保持不变可以使用ISMEAR=-5(半导体或绝缘体的计算(不论是静态还是结构优化)K点大于4，可取ISMEAR = -5)
 - ISMEAR = -4，表示采用四面体方法，但是没有Blochl修正。
 - ISMEAR = -1，表示采用Fermi-Dirac smearing方法。
 - ISMEAR = 0，表示采用Gaussian smearing方法。
-<br>于原胞较大而k点数目较少（小于4个）时，取ISMEAR = 0，并设置一个合适的SIGMA值
+<br>原胞较大而k点数目较少（小于4个）时，取ISMEAR = 0，SIGMA取小一些如0.05
 <br>一般说来，无论是对何种体系，进行何种性质的计算，采用ISMEAR =0，并选择一个合适的SIGMA值都能得到合理的结果
-- ISMEAR = N，表示采用Methfessel-Paxton smearing方法，N为正整数,表示此方法中的阶数
-<br>体系呈现金属性时，取ISMEAR=1和2，以及设置一个合适的SIGMA值
+<br>bbs. 对于半导体和绝缘体体系,K点小于4, 一般用0
+- ISMEAR = N，表示采用N阶Methfessel-Paxton smearing方法，N为正整数
 
-- 在进行能带结构计算时，ISMEAR和SIGMA用默认值就好。
+bbs.使用ISMEAR=-5和较多K点可用于计算DOS,以下情况不能使用ISMEAR=-5
+- 模型很大=>K点少(小于4个)
+- 结构优化时不能取-5,(优化后计算DOS可设为-5)
+
+bbs.不能使用ISMEAR=-5时
+- 增加K点(简单推荐)
+- 半导体绝缘体使用ISMEAR= 0(GS方法)(半导体绝缘体绝对不能大于0)
+- 金属,可以使用GS方法 ISMEAR = 0,也可以使用MP方法ISMEAR = 1, 2….N,一般来说,ISMEAR =0和 1 基本就可以了。(金属可以等于0,也可大于0)
+
+<br>bbs.对所有的体系四面体方法（ISMEAR = -5）不适合计算能带
+
+
+SIGMA的取值和ISMEAR息息相关
+- ISMEAR = -5 (对于所有体系),SIGMA的值可以忽略,也可以不管(VASP会自动略过)
+- SIGMA的取值和KPOINTS密切相关,Kpoints确定之后,测试SIGMA取值合理性。标准是: grep 'entropy T'  OUTCAR   得出的能量除以体系中原子的数目,小于0.001 eV 合格
 <br>
+- 对于分子,原子体系(也就是你把分子或者原子放到一个box里面),K点只有一个Γ点取ISMEAR=0，SIGMA必须要用很小的值,如0.01
+- MP方法(ISMEAR=1..N):SIGMA取值太大,计算出来的能量可能不正确;SIGMA取值越小,计算越精确,需要的时间也就越多
+<br>从经验上来说:对于金属体系,使用MP方法(ISMEAR=1..N)时,SIGMA= 0.10 足够了,官网给的参考值是0.20。
+
+- 对于高斯展宽Gaussian Smearing (ISMEAR = 0),
+<br> 对于大部分的体系都能得到理想的结果
+<br>SIGMA取值比较大的时候会得到与MP方法相近的误差;但是误差多大,GS方法不可以得到,而MP方法可以。从这一点上来说,MP要比GS好些;
+<br>使用GS方法的时候(ISMEAR=0),SIGMA的数值要测试下,保证'entropy T*S'这一项平均到每个原子上小于0.001 eV也就是1meV。5)不想测试,对于金属体系:SIGMA=0.05是一个很安全的选择
+<br>对于半导体和绝缘体,SIGMA取值要小,SIGMA = 0.01 – 0.05 之间也是很安全的。
+
+
+计算DOS的时候,KPOINTS设置的要大一些,ISMEAR要用-5。 <br>Kpoints因计算硬件限制不能设置的很大,数目小于3的时候,
+- 对于金属,非金属体系均可以使用ISMEAR=0,SIGMA的数值需要测试一下,一般来说在0.01-0.05之间足够了。
+- 金属体系还可以用ISMEAR=1..N,官网建议SIGMA为0.20,太小的SIGMA值对收敛会产生影响。使用0.01-0.10的数值都是很安全的选择。
+
+**非DOS计算的时候,对于金属来说ISMEAR不能等于 -5**,优先使用ISMEAR= 1。非金属来说(半导体和绝缘体),不能 > 0 。对于所有的体系, ISMEAR= 0 则是一个很安全的选择,但SIGMA的数值要测试一下。
+
+在进行能带计算时ISMEAR,SIGMA保持默认就好
+
+
+
+### NCORE NPAR
+[Learn VASP The Hard Way （Ex21）：谁偷走的我的机时？（五）](http://www.bigbrosci.cn/newsitem/277955358)看完还是不清楚，仅确定
+<br>NCORE：控制多少个核同时计算；(?单个节点上的核)
+<br>NPAR：如何把计算任务分配到计算资源上面计算(?使用的节点数)
+<br>它们之间的关系是：NCORE= 计算使用的核数(mpirun分配?) / NPAR
+<br>注意：这两个参数只能选取一个来使用
+<br>bbs.NPAR实在不懂的话，直接设置NCORE=单节点的核数，单节点的核数/2，单节点的核数/4…….
+<br>师兄.我们组服务器不设置NCORE等并行参数,保持默认就好
+
+### NWRITE
+决定OUTCAR中文件的信息，默认2<br>
+对计算结果不影响,可选<br>
+详细信息[NWRITE_tag](http://cms.mpi.univie.ac.at/vasp/vasp/NWRITE_tag.html)
+
+

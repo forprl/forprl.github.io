@@ -109,9 +109,11 @@ source  /opt/intel/impi/2018.0.128/bin64/mpivars.sh
 在编译后运行vasp时,若上述文件不在PATH内,也无法运行,需要先执行一遍<br>
 修改`/etc/profile`或`~/.bashrc`中就无需上述操作,登陆时source一下或着添加到文件永久修改都可以,看个人喜好
 ### 编译并行fftw
+
 下面的路径与实际路径与intel编译器的版本有关,版本变更后适当修改<br>
 `make -h`可**不是很确定**使用intel编译器编译并行版本的fftw命令为`make libmic`<br>
-如果结果不并行,建议使用此文后面所说的下载编译并行fftw方式
+建议编译并行fftw使用下文[编译fftw](/2018/01/15/intel-mpi-vasp/#%E4%BD%BF%E7%94%A8fftw)的方法
+
 ```
 cd /opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/interfaces/fftw3xf
 make libmic

@@ -10,13 +10,14 @@ mathjax: true
 * content
 {:toc}
 整理备查
-
+vasp的[manual](http://cms.mpi.univie.ac.at/vasp/vasp/vasp.html)值得一读
 
 
 
 
 ## OUTCAR
-OUTCAR :自洽过程的详细信息计算结果主要输出文件
+OUTCAR :自洽过程的详细信息计算结果主要输出文件<br>
+最后的计算结果，优化后的结构好多信息
 ### 格式
 ```
 VASP编译,运行信息
@@ -48,6 +49,7 @@ grep "TOTEN" OUTCAR | tail -1|awk '{printf"%12.6f \n",$5}'
 # 体积
 grep "volume" OUTCAR
 ```
+使用Jmol显示计算后的模型和震动信息
 ## DOSCAR 态密度信息
 ### 格式
 ```
@@ -86,3 +88,29 @@ End>     16.919  0.0000E+00  0.1600E+02
 ## CHG CHGCAR 电荷密度
 CHGCAR和CHG数据点一样多,只是数值更精确<br>
 放入VESTA中看电荷密度图
+
+## CONTCAR
+优化后的POSCAR<br>
+### 使用
+同处理POSCAR的程序,p4vasp,MS,VESTA等<br>
+计算第一步进行结构优化，得到CONTCAR后,`cp CONTAR POSCAR`进行其他性质的计算
+
+## OSZICAR
+直接用vasp运行，屏幕上的输出和最后的OSZICAR文件内容一样<br>
+每次结构优化为一大段，以类似`  1 F= 0.26455851E+00 E0= 0.26435292E+00  d E =0.264559E+00  mag=     2.0000`这样的结束<br>
+每段内是电子优化过程，对应类似`DAV:   1`这样的<br>
+结构优化步数由NSW参数决定,默认为0,算完电子不优化<br>
+电子优化步数由NELM参数决定,默认为60,优化60步就结束<br>
+最后结构不合理可能是优化步数达到了这两个参数的最大值停止计算了
+```
+cndaqiang@centos1:~/work/0121Dashi/dirtest/0.01$ vi OSZICAR 
+
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1     0.792799315692E+02    0.79280E+02   -0.34288E+03    64   0.507E+02
+...省略
+DAV:  21     0.264558511708E+00    0.53910E-04   -0.16164E-07    24   0.401E-03
+   1 F= 0.26455851E+00 E0= 0.26435292E+00  d E =0.264559E+00  mag=     2.0000
+       N       E                     dE             d eps       ncg     rms          rms(c)
+DAV:   1     0.143272113174E+03    0.14301E+03   -0.50023E+03    64   0.387E+02    0.379E+01
+省略
+```
