@@ -241,7 +241,7 @@ CHGCAR  DOSCAR   INCAR     OSZICAR  PCDAT   POTCAR  vasprun.xml  XDATCAR
 ```
 可以将自己的运算结果和[Materials Project](https://www.materialsproject.org)进行对比
 ## 输入输出文件
-输入输出文件的编写规则和vasp使用的相关教程资源就非常多了，不适合在这里整理了
+输入输出文件的编写规则和vasp使用的相关教程资源就非常多了，不在这里整理了
 
 ## 后记
 参考的教程太多了，恕不把每个链接放上了，仅再此感谢小木虫csdn计算化学公社等优秀的网友<br>

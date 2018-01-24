@@ -163,7 +163,8 @@ gam  ncl  std
 若没有给数学库添加PATH,运行前需要source一下,具体内容，前面都有<br>
 vasp运行方式1)添加PATH直接输入vasp运行，或类似这样`~/vasp/vasp.5.4.1/build/std/vasp`运行<br>
 是否添加PATH，看组里习惯吧<br>
-从[Materials Project](https://www.materialsproject.org)下载POSCAR, INCAR,KPOINTS从vasp网站下载POTCAR，放在一个文件夹中，在改文件夹内运行vasp,将结果与[Materials Project](https://www.materialsproject.org)结果比较
+把输入文件放在一个文件夹中，在该文件夹内运行vasp<br>
+可从[Materials Project](https://www.materialsproject.org)下载POSCAR, INCAR,KPOINTS,POTCAR从vasp网站下载,直接运算可能需要修改下载的INCAR,将结果与[Materials Project](https://www.materialsproject.org)结果比较
 # 常见问题
 这里放一些，安装过程中的问题和解决方案
 

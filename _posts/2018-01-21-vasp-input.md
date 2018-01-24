@@ -11,7 +11,8 @@ mathjax: true
 {:toc}
 整理备查
 vasp的[manual](http://cms.mpi.univie.ac.at/vasp/vasp/vasp.html)值得一读<br>
-看资料遇到陌生的参数,查manual就好了
+看资料遇到陌生的参数,查manual就好了<br>
+INCAR输入参数推荐苏长荣老师的vasp安装和使用说明(后面有索引可以直接查)和[官方manual](http://cms.mpi.univie.ac.at/vasp/vasp/vasp.html)
 
 
 
@@ -206,7 +207,9 @@ bbs.如果达到最大优化步数60
 ENCUT=250
 ```
 侯:推荐手动输入<br>
-bbs.计算多个元素进行对比时，建议统一固定一个值450是一个很安全的选择
+bbs.计算多个元素进行对比时，建议统一固定一个值
+bbs.如果计算时体积发生了变化，我们需要增加ENCUT的值，比如说：<br>
+ENCUT = 1.3 * max(ENMAX) 即取POSCAR中ENMAX最大元素的ENMAX值。
 ### PREC计算精度
 决定ENCUT,FFT的网格大小和ROPT的默认值
 ```
@@ -224,13 +227,14 @@ ISMEAR用来确定如何确定电子的部分占有数。
 <br>侯(侯柱峰老师).进行任何的静态计算或态密度计算，且k点数目大于4时，取ISMEAR = -5
 <br>bbs.对所有体系,更加精确的时候用-5
 <br>在DOS能带计算中,使用ISMEAR=-5画出的图形更平滑
-<br>结构优化时不能使用ISMEAR=-5,计算DOS,结构保持不变可以使用ISMEAR=-5(半导体或绝缘体的计算(不论是静态还是结构优化)K点大于4，可取ISMEAR = -5)
+<br>**结构优化时不能使用ISMEAR=-5**,计算DOS,结构保持不变可以使用ISMEAR=-5(半导体或绝缘体的计算(不论是静态还是结构优化)K点大于4，可取ISMEAR = -5)
 - ISMEAR = -4，表示采用四面体方法，但是没有Blochl修正。
 - ISMEAR = -1，表示采用Fermi-Dirac smearing方法。
 - ISMEAR = 0，表示采用Gaussian smearing方法。
 <br>原胞较大而k点数目较少（小于4个）时，取ISMEAR = 0，SIGMA取小一些如0.05
 <br>一般说来，无论是对何种体系，进行何种性质的计算，采用ISMEAR =0，并选择一个合适的SIGMA值都能得到合理的结果
 <br>bbs. 对于半导体和绝缘体体系,K点小于4, 一般用0
+<br>对于分子,原子体系(也就是你把分子或者原子放到一个box里面),K点只有一个Γ点取ISMEAR=0，SIGMA必须要用很小的值,如0.01
 - ISMEAR = N，表示采用N阶Methfessel-Paxton smearing方法，N为正整数
 
 bbs.使用ISMEAR=-5和较多K点可用于计算DOS,以下情况不能使用ISMEAR=-5
@@ -256,7 +260,7 @@ SIGMA的取值和ISMEAR息息相关
 - 对于高斯展宽Gaussian Smearing (ISMEAR = 0),
 <br> 对于大部分的体系都能得到理想的结果
 <br>SIGMA取值比较大的时候会得到与MP方法相近的误差;但是误差多大,GS方法不可以得到,而MP方法可以。从这一点上来说,MP要比GS好些;
-<br>使用GS方法的时候(ISMEAR=0),SIGMA的数值要测试下,保证'entropy T*S'这一项平均到每个原子上小于0.001 eV也就是1meV。5)不想测试,对于金属体系:SIGMA=0.05是一个很安全的选择
+<br>使用GS方法的时候(ISMEAR=0),SIGMA的数值要测试下,保证`grep "entropy T" OUTCAR |tail -1`结果平均到每个原子上小于0.001 eV也就是1meV。不想测试,对于金属体系:SIGMA=0.05是一个很安全的选择
 <br>对于半导体和绝缘体,SIGMA取值要小,SIGMA = 0.01 – 0.05 之间也是很安全的。
 
 
@@ -283,5 +287,27 @@ SIGMA的取值和ISMEAR息息相关
 决定OUTCAR中文件的信息，默认2<br>
 对计算结果不影响,可选<br>
 详细信息[NWRITE_tag](http://cms.mpi.univie.ac.at/vasp/vasp/NWRITE_tag.html)
+
+### PREC
+截图自苏长荣老师的VASP安装和使用说明
+![](/uploads/2018/01/prec.JPG)
+
+### LCHARG 是否输出CHG,CHGCAR
+默认 LCHARG= .TRUE. 输出<br>
+自洽计算LCHARG= .TRUE.输出CHG
+<br>下一步非自洽计算时设置ICHAGR=11使用CHG计算DOS
+### LWAVE 是否输出WAVECAR
+默认 LWAVE= .TRUE. 输出<br>
+(WAVECAR占空间比较大时,可以选中不输出)<br>
+读取上一步计算的WAVECAR可以减少该步(自洽/非自洽)的计算时间,所以推荐输出<br>
+使用ISTART=1使用上一步计算的WAVECAR(默认就是读取WAVECAR)
+### LORIBT 是否输出投影波函数到PROCAR PROOUT
+- LORBIT = 10 
+<br>把态密度分解到每个原子以及原子的spd轨道上面，称为为局域态密度，Local DOS (LDOS)
+- LORBIT =11 
+<br>在10的基础上，还进一步分解到px，py，pz等轨道上，称为投影态密度（Projected DOS）或者分波态密度(Partial DOS)，即PDOS。
+<br>所以LORBIT = 11可以提供我们更多的信息,**计算DOS时设置为11**
+
+
 
 
