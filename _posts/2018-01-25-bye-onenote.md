@@ -71,9 +71,18 @@ VeraCrypt 是一款基于已终止的 TrueCrypt项目开发的开源即时加密
 ### 同步云盘
 避免数据丢失,对Zim的笔记进行备份,因为日常备份都用坚果云了,所以选择[坚果云](https://www.jianguoyun.com)
 
-## 安装
-### 安装Zim
-从[Zim - A Desktop Wiki](http://zim-wiki.org/)下载安装即可
+## 安装使用
+### Zim
+#### 安装
+从[Zim - A Desktop Wiki](http://zim-wiki.org/)下载安装即可<br>
+#### 中文支持
+参考[Zim桌面wiki系统](http://menxu.lofter.com/post/164b9d_3ebf7b)<br>
+使用中文:我的电脑（计算机）右键属性里的环境变量里增加一个变量，变量名为 “LANG”，值为 “zh_CN.UTF-8″，皆不带引号
+#### 常用
+`ctrl +/-`调节页面文本显示大小
+#### 插入图片过大
+选中图片,ctrl+E,调整大小
+
 ## 安装VeraCrypt
 参考[Please add these info for Linux/Ubuntu users](https://sourceforge.net/p/veracrypt/discussion/technical/thread/1056ed16/)<br>
 从[VeraCrypt](https://veracrypt.codeplex.com/)下载安装即可,教程很多<br>
