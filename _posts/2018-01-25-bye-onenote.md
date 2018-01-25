@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "PC端笔记方案_VearCrypt+Zim+同步云盘"
+title:  "PC端笔记方案_VeraCrypt+Zim+同步云盘"
 date:   2018-01-25 17:16:00 +0800
 categories: 数字化生活
 tags: 全平台 tool 笔记
@@ -57,12 +57,12 @@ mathjax: true
 <br>致命弱点不能加密,所以需要第三方加密软件进行加密
 
 
-## PC端笔记方案_VearCrypt+Zim+同步云盘
+## PC端笔记方案_VeraCrypt+Zim+同步云盘
 ### [Zim - A Desktop Wiki](http://zim-wiki.org/)
 虽然没有onenote那么强大,但笔记功能还可以,可以从粘贴板复制图片等并保持排版
 <br>开源,免费,支持Linux，[OSX](http://zim-wiki.org/install.html),Windows.
 
-### [VearCrypt](https://veracrypt.codeplex.com/)
+### [VeraCrypt](https://veracrypt.codeplex.com/)
 VeraCrypt 是一款基于已终止的 TrueCrypt项目开发的开源即时加密软件，它可以创建一个虚拟的加密磁盘或者加密分区，用来保护隐私文件。详细信息和安装[@小众软件](https://www.appinn.com/veracrypt/)<br>
 <br>主要是用于对存放含有密码的笔记,开源,免费支持Linux，OSX,Windows.(移动端也有第三方客户端)
 <br><br>我最喜欢的地方是,开机一次解密,挂载成一个分区,断电或关机数据都会加密.而且存储文件没有格式要求,**可以把加密盘,命名为`xxx.dll`等名称藏在C盘某个目录内,减少电脑失窃后某些文件/笔记被偷看的可能**。
@@ -74,9 +74,9 @@ VeraCrypt 是一款基于已终止的 TrueCrypt项目开发的开源即时加密
 ## 安装
 ### 安装Zim
 从[Zim - A Desktop Wiki](http://zim-wiki.org/)下载安装即可
-## 安装VearCrypt
+## 安装VeraCrypt
 参考[Please add these info for Linux/Ubuntu users](https://sourceforge.net/p/veracrypt/discussion/technical/thread/1056ed16/)<br>
-从[VearCrypt](https://veracrypt.codeplex.com/)下载安装即可,教程很多<br>
+从[VeraCrypt](https://veracrypt.codeplex.com/)下载安装即可,教程很多<br>
 ubuntu错误提示
 ```
 VeraCrypt:process::Execute:88
