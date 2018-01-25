@@ -8,7 +8,7 @@
 [下载页面](https://rubyinstaller.org/downloads/)
 下载安装
 ### 安装Ruby DevKit   
-我安装的是 Ruby 2.4.0 
+我安装的是 Ruby 2.4.0 (推荐2.4.x,2.5以上报错了)
 使用 ridk install 安装DevKit   
 ### 安装jekyll
 使用github-pages包
