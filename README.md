@@ -1,8 +1,7 @@
 此项目fork自[gaohaoyang.github.io](https://github.com/Gaohaoyang/gaohaoyang.github.io),原项目[README-zh-cn.md](https://github.com/cndaqiang/cndaqiang.github.io/blob/master/README-zh-cn.bak.md)
 
 # 此博客的搭建过程
-以windows系统为例
-## [可选]安装本地环境
+## windows安装本地环境
 此操作只是为了能够本地预览博客效果，GitHub-page上已有环境
 ### 安装 ruby
 [下载页面](https://rubyinstaller.org/downloads/)
@@ -14,7 +13,19 @@
 使用github-pages包
 gem install github-pages
 
-
+## ubuntu16.04安装本地环境
+```
+sudo apt-get install ruby2.4
+sudo apt-get install ruby2.4-dev
+sudo apt install zlib1g-dev
+sudo gem update
+sudo gem install github-pages
+```
+## 运行
+进入网站目录
+```
+jekyll s
+```
 
 # 目录结构
 参考[目录结构](http://jekyllcn.com/docs/structure/)
