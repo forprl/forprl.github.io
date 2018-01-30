@@ -1,8 +1,8 @@
 此项目fork自[gaohaoyang.github.io](https://github.com/Gaohaoyang/gaohaoyang.github.io),原项目[README-zh-cn.md](https://github.com/cndaqiang/cndaqiang.github.io/blob/master/README-zh-cn.bak.md)
 
-# 此博客的搭建过程
-## windows安装本地环境
+# 本地搭建过程
 此操作只是为了能够本地预览博客效果，GitHub-page上已有环境
+## windows安装本地环境
 ### 安装 ruby
 [下载页面](https://rubyinstaller.org/downloads/)
 下载安装
@@ -24,10 +24,12 @@ sudo gem install github-pages
 ## 运行
 进入网站目录
 ```
-jekyll s
+jekyll s [--port 端口号(不设置默认端口4000)]
 ```
+浏览器访问`http://127.0.0.1:4000`
 
-# 目录结构
+# 此项目使用
+## 目录结构
 参考[目录结构](http://jekyllcn.com/docs/structure/)
 
 主要结构
@@ -48,7 +50,7 @@ jekyll s
 /_site 自已生成不需操作
 /_post 博客文章内容
 ```
-# git clone已有博客页面
+## git clone已有博客页面
 
 ## 修改页面
 
@@ -62,8 +64,16 @@ http://utf7.github.io/2016/09/30/setting-up-your-github-pages-site-locally-with-
 参考[README-zh-cn.md](https://github.com/cndaqiang/cndaqiang.github.io/blob/master/README-zh-cn.bak.md)
 #### 注
 disqus的shortname，不是用户名，一个网站一个，setting里有
-
-
+### 摘要预览
+摘要由`_config.yml`中的`excerpt_separator: "摘要内容分隔符"`决定,此项目设置为`excerpt_separator: "\n\n\n\n"`即文章中连续四个回车前的内容显示在主页
+#### 问题
+windows下的换行是`^M\n`,windows版的GitBash好像提交代码时或自动修改为Unix的`\n`,但是之前在windows下的文件在linux下提交就不会了，所以，主页一整篇文章就是一个摘要
+<br>比较好的解决方案是替换`_config.yml`中的`excerpt_separator: "摘要内容分隔符"`的`摘要内容分隔符`为非换行符，然后替换掉文章中的`摘要内容分隔符`<br>
+也可以
+```
+sudo apt install dos2unix
+dos2unix *.md
+```
 
 # 发布日期不能大于当前时间
 
@@ -74,8 +84,8 @@ disqus的shortname，不是用户名，一个网站一个，setting里有
 在footer.html里修改
 照着修改，在_config.xml   里添加用户名
 
-#
-博客设置
+# 博客设置
 
-简书发布/保存成草稿
-转发到github-page 解决图片缓存问题
+~~简书发布/保存成草稿~~
+~~转发到github-page 解决图片缓存问题~~
+
