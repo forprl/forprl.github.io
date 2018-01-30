@@ -158,7 +158,7 @@ MAGMOM=原子种类1*自旋磁矩 原子种类2*自旋磁矩 ...
 如果体系不收敛,或者计算不符合物理图像时,进行结构优化,调整IBRION的值
 - IBRION=3：你的初始结构很差的时候；
 - IBRION=2：共轭梯度算法，很可靠的一个选择，一般来说都用它。(用于结构优化)
-- IBRION=1：用于小范围内稳定结构的搜索
+- IBRION=1：BFGS准牛顿方法(quasi-Newton RMM-DIIS),用于小范围内稳定结构的搜索
 - IBRION=5,6等参考[VASP_manual](http://cms.mpi.univie.ac.at/vasp/vasp/IBRION_5_IBRION_6.html)配合NFREE,POTIM用于计算震动频率,IBRION = 6和ISIF=3 用于计算弹性常数等<br>
 NFREE 确定每个方向和离子使用多少个位移，POTIM确定步长。如果在输入文件中提供的值太大，则步长POTIM默认为0.015(VASP.5.1)
 

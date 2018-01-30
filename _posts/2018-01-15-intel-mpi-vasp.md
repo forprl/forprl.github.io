@@ -93,6 +93,7 @@ yum install gcc-c++
 ./install.sh
 ```
 同意协议,保持默认选项即可,默认安装到`/opt/intel`,也可以自定义
+<br>使用ubuntu16.04安装时,使用`./install_GUI.sh `,可以选择安装组件，只安装64位,icc,ifort,mpi,mkl就可以运行，a安装后占空间约2G
 ### 添加PATH
 下面的路径与实际路径与intel编译器的版本有关,版本变更后适当修改<br>
 执行
@@ -136,10 +137,10 @@ FCL        = mpiifort -mkl
 ```
 MKLROOT=/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl
 MKL_PATH   = $(MKLROOT)/lib/intel64
-BLAS       = -L$(MKL_PATH) -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread
-LAPACK     = -L$(MKL_PATH) -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread
-BLACS      = -L$(MKL_PATH) -lmkl_blacs_intelmpi_lp64
-SCALAPACK  = -L$(MKL_PATH) -lmkl_scalapack_ilp64 -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64
+BLAS       =-L$(MKL_PATH) -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread
+LAPACK     =-L$(MKL_PATH) -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread
+BLACS      =-L$(MKL_PATH) -lmkl_blacs_intelmpi_lp64
+SCALAPACK  = $(MKL_PATH)/libmkl_scalapack_lp64.a $(BLACS)
 ```
 - 26行fft配置
 ```
@@ -147,7 +148,12 @@ OBJECTS    = fftmpiw.o fftmpi_map.o fftw3d.o fft3dlib.o \
              $(MKLROOT)/interfaces/fftw3xf/libfftw3xf_intel.a
 INCS       =-I$(MKLROOT)/include/fftw
 ```
-
+若自己编译fftw，配置为(其中/opt/fftw是我编译后安装的目录)
+```
+OBJECTS    = fftmpiw.o fftmpi_map.o fftw3d.o fft3dlib.o \
+             /opt/fftw/lib/libfftw3_mpi.a
+INCS       =-I/opt/fftw/include
+```
 最后我的[makefile.inclued](/web/file/2018/makefile.include_intelfftw/makefile.include)<br>
 编译
 ```
