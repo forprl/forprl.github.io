@@ -119,7 +119,7 @@ Direct  Direct分数坐标,Car实际坐标单位为埃
 <br> 0从初始波函数计算
 <br> 1从CHGCAR(上次输出的电荷密度)读入
 <br> +10非自洽运算,电荷密度在计算过程中保持不变
-<br> 如1+10=11时，电荷密度保持CHGCAR中的值不变,适用于给定电荷密度求能级本征值(输出EIGENVAL文件)和态密度(输出DOSCAR文件),用于能带计算
+<br> 如1+10=11时，电荷密度保持CHGCAR中的值不变,适用于给定电荷密度求能级本征值(计算能带,输出EIGENVAL文件)和态密度(DOS,输出DOSCAR文件),用于能带计算
 
 初次计算
 ```
@@ -222,6 +222,7 @@ POTCAR中的LEXCH与INCAR中GGA的设置对应
 <br>LEXCH=91(PW91赝势) GGA=91 VOSKOWN=1
 <br>LEXCH=PE GGA=PE VOSKOWN不设置
 ### ISMEAR SIGMA
+#### ISMEAR
 ISMEAR用来确定如何确定电子的部分占有数。
 - ISMEAR = -5，表示采用Blochl修正的四面体方法
 <br>侯(侯柱峰老师).进行任何的静态计算或态密度计算，且k点数目大于4时，取ISMEAR = -5
@@ -237,9 +238,14 @@ ISMEAR用来确定如何确定电子的部分占有数。
 <br>对于分子,原子体系(也就是你把分子或者原子放到一个box里面),K点只有一个Γ点取ISMEAR=0，SIGMA必须要用很小的值,如0.01
 - ISMEAR = N，表示采用N阶Methfessel-Paxton smearing方法，N为正整数
 
+<br>
+[【整理自好友lpf文章】用VASP计算能量态密度（DOS）和能带](http://blog.sciencenet.cn/blog-567091-675253.html)文中提到
+<br>**非自洽计算能带：金属用ISMEAR=1；半导体或绝缘体，用ISMEAR=0**
+<br>**计算DOS,用ISMEAR=-5更精确**
+<br><br>
 bbs.使用ISMEAR=-5和较多K点可用于计算DOS,以下情况不能使用ISMEAR=-5
 - 模型很大=>K点少(小于4个)
-- 结构优化时不能取-5,(优化后计算DOS可设为-5)
+- **结构优化时不能取-5**,(优化后计算DOS可设为-5)
 
 bbs.不能使用ISMEAR=-5时
 - 增加K点(简单推荐)
@@ -248,7 +254,7 @@ bbs.不能使用ISMEAR=-5时
 
 <br>bbs.对所有的体系四面体方法（ISMEAR = -5）不适合计算能带
 
-
+#### SIGMA
 SIGMA的取值和ISMEAR息息相关
 - ISMEAR = -5 (对于所有体系),SIGMA的值可以忽略,也可以不管(VASP会自动略过)
 - SIGMA的取值和KPOINTS密切相关,Kpoints确定之后,测试SIGMA取值合理性。标准是: grep 'entropy T'  OUTCAR   得出的能量除以体系中原子的数目,小于0.001 eV 合格
