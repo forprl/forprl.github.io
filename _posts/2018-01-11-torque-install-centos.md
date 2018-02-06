@@ -257,8 +257,10 @@ Job ID                    Name             User            Time Use S Queue
 
 
 # 使用
-该部分主要参考[PBS](http://hydro.igsnrr.ac.cn/data/resources/PBS.pdf)
-<br>命令
+该部分主要参考
+<br>[PBS](http://hydro.igsnrr.ac.cn/data/resources/PBS.pdf)
+<br>[[转载]PBS！！](http://blog.sciencenet.cn/blog-478347-395684.html)
+## 命令
 - 提交脚本
 ```
 qsub <PBS作业脚本>
@@ -286,6 +288,12 @@ qrls <Job ID>
 - 交换作业顺序
 ```
 qorder <Job ID> <Job ID>
+```
+- qstat
+```
+qstat 查看最近作业状态
+qstat -f <Job ID> 查看作业信息(作业提交多了，忘记是什么必备)
+qstat -n <Job ID> 查看作业节点
 ```
 
 ## PBS脚本文件

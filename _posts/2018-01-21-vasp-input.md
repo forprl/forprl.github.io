@@ -39,7 +39,10 @@ potpaw_PBE ==> PAW, GGA, PBE<br>
 
 ## KPOINTS K点
 **是KPOINTS,不是KPOINT**
-<br>布里渊区K点采样方式
+- 布里渊区K点采样方式
+- K点越多计算消耗的内存越大，在个人笔记本上计算时一定要先用小点的
+K点数目试算一下，内存占用大容易死机
+
 ### 产生
 #### 自动
 ```
@@ -53,14 +56,16 @@ bbs.推荐用G
 - K1 K2 K3的取值,使得K1*a=K2*b=K3*c，a,b,c为POSCAR中基失长度
 ![](/uploads/2018/01/k1k2k3mesh.jpg)
 ![](/uploads/2018/01/k1k2k3mesh2.jpg)
+- **二维材料(c方向上只有一层原子)结构优化和自恰计算时K点可选取NxNx1**
 
 #### Line-mode(一般仅在计算能带结构时使用)：
+例:
 ```
 k-pointsforMgO(100)(title) 注释
-21             K点数目
+21             下面两个高对称K点之前插入的K点数目
 Line-mode      L表示Line-mode
 Rec           字母R打头表示为倒易空间坐标，否则为实空间的坐标)
-0.0 0.0 0.0 !Γ   各K点的以及权重
+0.0 0.0 0.0 !Γ   各高对称K点的以及权重
 0.5 0.0 0.0 !Z
 0.5 0.0 0.0 !Z
 0.5 -0.5 0.0 !K
@@ -69,8 +74,30 @@ Rec           字母R打头表示为倒易空间坐标，否则为实空间的�
 0.0 -0.5 0.0 !L
 0.0 0.0 0.0 !Γ
 ```
-(对称点Γ等,与布里渊区形状有关)
-Ref：10.1016/j.commatsci.2010.05.010
+高对称K点的选取:<br>
+可以参考[High-throughput electronic band structure calculations: challenges and tools](https://arxiv.org/abs/1004.2974)
+<br>[小木虫-【原创】k点设置的学习心得](http://muchong.com/bbs/viewthread.php?tid=2337146&fpage=1)
+<br>如六角晶格的高对称点
+![](/uploads/2018/01/hex.png)
+<br>对应的KPOINTS文件
+```
+Line-mode        #注释
+60               #每两个高对称点间产生的K点数
+L                #使用Line-mode
+Rec              #使用倒格点坐标
+0 0 0            #G点/Γ点
+-1/3 2/3 0       #M点
+-1/3 2/3 0       #M点
+1/2 0 0          #K点
+1/2 0 0          #K点
+0 0 0            #G点/Γ点
+```
+**LH师兄.自己的结构可能因为角度等不同和参考文献中的K点有些不同，可以使用POSCAR->VESTA->cif后导入MS，使用MS的Tools/Brillouin Zone Path功能识别高对称K点**，然后对比上面参考文献中的方法，手动添加K点坐标看是否符合自己的结构，如图CoCl2识别的加上我添加的K(0.333 0.333 0)<br>
+![](/uploads/2018/01/mskpoints.png)
+
+**说明**<br>
+- 只要原胞时一样的，超胞如何构建，高对称点坐标不变
+
 
 #### 手动定义各K点的坐标(一般仅在计算HSE能带结构时使用)：
 

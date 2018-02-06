@@ -680,6 +680,20 @@ export LANG=en_US.UTF-8
 seq 初值 步长 终值
 ```
 
+### 查看cpu温度
+使用笔记本计算时，温度感人<br>
+**GUI**
+ubuntu可以直接在商店中安装temperature，图形化显示<br>
+安装后需运行`sudo snap connect sensors-unity:hardware-observe :hardware-observe`才能正常检测(命令参考软件安装界面的Note,如无效，请看最新的Note)
+<br>**命令模式**
+```
+sudo apt-get install lm-sensors
+sudo sensors-detect
+#一路YES
+sudo service kmod start
+sensors
+```
+centos命令行用yum同理
 ## 参考
 [peida-博客-每天一个linux命令目录](http://www.cnblogs.com/peida/)
 

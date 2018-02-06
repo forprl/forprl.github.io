@@ -34,7 +34,7 @@ mathjax: true
 <br>添加PATH的方法，参考[添加PATH](/2017/09/10/linux-command/#%E6%B7%BB%E5%8A%A0path)
 - 编译选项
 <br>`configure -h`可以查看生成makefile的编译选项,如CC(C编译器)FC(Fortran编译器)MPICC(并行CC)MPIFC(并行FC)enable-mpi(执行并行)
-<br>编译并行fftw时,制定intel
+<br>编译并行fftw时,指定intel编译器
 ```
 ./configure --prefix=/opt/fftw/ CC=icc F77=ifort MPICC=mpiicc --enable-mpi
 ```
@@ -93,7 +93,7 @@ yum install gcc-c++
 ./install.sh
 ```
 同意协议,保持默认选项即可,默认安装到`/opt/intel`,也可以自定义
-<br>使用ubuntu16.04安装时,使用`./install_GUI.sh `,可以选择安装组件，只安装64位,icc,ifort,mpi,mkl就可以运行，a安装后占空间约2G
+<br>使用ubuntu16.04安装时,使用`./install_GUI.sh `,可以选择安装组件，只安装64位,icc,ifort,mpi,mkl就可以运行，安装后占空间约2G
 ### 添加PATH
 下面的路径与实际路径与intel编译器的版本有关,版本变更后适当修改<br>
 执行
@@ -106,7 +106,7 @@ source  /opt/intel/impi/2018.0.128/bin64/mpivars.sh
 ```
 或者讲上述命令添加到`/etc/profile`或`~/.bashrc`,具体含义[添加PATH](/2017/09/10/linux-command/#%E6%B7%BB%E5%8A%A0path)<br>
 可用`which icc ifort icpc mpiifort`检查是否添加成功<br>
-之后编译,若提示`xxx:command not found`，则在source一遍上述命令<br>
+之后编译,若提示`xxx:command not found`，则再source一遍上述命令<br>
 在编译后运行vasp时,若上述文件不在PATH内,也无法运行,需要先执行一遍<br>
 修改`/etc/profile`或`~/.bashrc`中就无需上述操作,登陆时source一下或着添加到文件永久修改都可以,看个人喜好
 ### 编译并行fftw
@@ -288,6 +288,33 @@ username  soft memlock unlimited
 ```
 reboot重启生效
 
+### 这个错误
+```
+Fatal error in PMPI_Alltoallv: Other MPI error, error stack:
+PMPI_Alltoallv(665).............: MPI_Alltoallv(sbuf=0x7f760c875340, scnts=0x7f760e1e7a00, sdispls=0x7f760e1e7a40, MPI_INTEGER, rbuf=0x7f760c8eb380, rcnts=0x7f760e1e79a0, rdispls=0x7f760e1e79e0, MPI_INTEGER, comm=0x84000007) failed
+MPIR_Alltoallv_impl(416)........: fail failed
+MPIR_Alltoallv(373).............: fail failed
+MPIR_Alltoallv_intra(226).......: fail failed
+MPIR_Waitall_impl(221)..........: fail failed
+PMPIDI_CH3I_Progress(623).......: fail failed
+pkt_RTS_handler(317)............: fail failed
+do_cts(662).....................: fail failed
+MPID_nem_lmt_dcp_start_recv(302): fail failed
+dcp_recv(165)...................: Internal MPI error!  Cannot read from remote process
+ Two workarounds have been identified for this issue:
+ 1) Enable ptrace for non-root users with:
+    echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
+ 2) Or, use:
+    I_MPI_SHM_LMT=shm
+
+```
+
+解决
+```
+sudo su
+I_MPI_SHM_LMT=shm
+echo 0 |  tee /proc/sys/kernel/yama/ptrace_scope
+```
 ### [未解决]dapl fabric is not available and fallback fabric is not enabled
 并行运算时
 ```

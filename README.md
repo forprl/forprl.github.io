@@ -11,12 +11,14 @@
 使用 ridk install 安装DevKit   
 ### 安装jekyll
 使用github-pages包
+```
 gem install github-pages
+```
 
 ## ubuntu16.04安装本地环境
 ```
-sudo apt-get install ruby2.4
-sudo apt-get install ruby2.4-dev
+sudo apt-get install ruby2.3
+sudo apt-get install ruby2.3-dev
 sudo apt install zlib1g-dev
 sudo gem update
 sudo gem install github-pages
