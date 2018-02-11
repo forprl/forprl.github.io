@@ -694,6 +694,24 @@ sudo service kmod start
 sensors
 ```
 centos命令行用yum同理
+
+### 查看cpu信息
+```
+cat /proc/cpuinfo
+```
+实时查看cpu运行频率
+```
+watch -n 1 "cat /proc/cpuinfo | grep MHz"
+```
+
+### 同时输出结果到屏幕和文件
+参考[linux命令tee：将信息同时输出到屏幕和文件](http://blog.csdn.net/dazhi_100/article/details/45022253)
+tee<br>
+实例
+```
+ls | tee out.txt
+```
+
 ## 参考
 [peida-博客-每天一个linux命令目录](http://www.cnblogs.com/peida/)
 
