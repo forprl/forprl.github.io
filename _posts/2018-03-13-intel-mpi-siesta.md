@@ -33,7 +33,7 @@ siesta-4.1-b1-intel/Obj$ ../Src/configure --enable-mpi FC=ifort CC=ifort MPIFC=m
 修改arch.make设置mkl数学库
 ```
 MKL_PATH   = /opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64
-BLAS       =-L$(MKL_PATH) -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lmkl_blacs_intelmpi_lp64 -lmkl_scalapack_lp64
+BLAS_LIBS=-L$(MKL_PATH) -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lmkl_blacs_intelmpi_lp64 -lmkl_scalapack_lp64
 LAPACK_LIBS=
 BLACS_LIBS=
 SCALAPACK_LIBS=
