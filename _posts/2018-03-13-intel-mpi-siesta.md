@@ -43,7 +43,7 @@ SCALAPACK_LIBS=
 make
 ```
 ## 测试
-siesta根目录有`Tests`文件夹,里面有示例
+以siesta-4.1为例,根目录有`Tests`文件夹,里面有示例
 <br>修改Tests/test.mk
 <br>设置并行核数和siesta地址
 ```
