@@ -142,6 +142,15 @@ LAPACK     =-L$(MKL_PATH) -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread
 BLACS      =-L$(MKL_PATH) -lmkl_blacs_intelmpi_lp64
 SCALAPACK  = $(MKL_PATH)/libmkl_scalapack_lp64.a $(BLACS)
 ```
+发现makefile.include中有`LIB=LLIBS      = $(SCALAPACK) $(LAPACK) $(BLAS)`,也可以
+```
+MKLROOT=/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl
+MKL_PATH   = $(MKLROOT)/lib/intel64
+BLAS       =-L$(MKL_PATH) -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lmkl_blacs_intelmpi_lp64 -lmkl_scalapack_lp64
+LAPACK     =
+BLACS      =
+SCALAPACK  = 
+```
 - 26行fft配置
 ```
 OBJECTS    = fftmpiw.o fftmpi_map.o fftw3d.o fft3dlib.o \
