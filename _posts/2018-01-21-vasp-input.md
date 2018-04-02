@@ -37,6 +37,8 @@ potpaw_PBE ==> PAW, GGA, PBE<br>
 <br>LEXCH=91(PW91赝势) GGA=91 VOSKOWN=1
 <br>LEXCH=PE GGA=PE VOSKOWN不设置
 
+ENMAX截断能
+
 ## KPOINTS K点
 **是KPOINTS,不是KPOINT**
 - 布里渊区K点采样方式

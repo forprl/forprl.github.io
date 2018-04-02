@@ -187,18 +187,22 @@ vasp运行方式1)添加PATH直接输入vasp运行，或类似这样`~/vasp/vasp
 在intel的路径中`ia32`代表32位,`intel64`代表64位
 ## 数学库MKL
 ### 数学库的调用
+数学库可以分为静态链接和动态连接,两种方式都可以<br>
+如`/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64`
+<br>里面有很多库文件`libmkl_blacs_intelmpi_ilp64.a libmkl_blacs_intelmpi_ilp64.so`<br>
+其中拓展名为`.a`是静态库,`.so`的为动态库
+- 静态链接
+<br>连接方式
 ```
-/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64
+LIB=/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64/libmkl_blacs_intelmpi_ilp64.a
 ```
-里面有很多库文件，如`libmkl_blacs_intelmpi_ilp64.a`,在编译时使用 
+
+- 动态链接
+<br>连接方式
 ```
--L/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64 -lmkl_blacs_intelmpi_ilp64
+LIB=-L/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64 -lmkl_blacs_intelmpi_ilp64
 ```
-或者
-```
-/opt/intel/compilers_and_libraries_2018.0.128/linux/mkl/lib/intel64/libmkl_blacs_intelmpi_ilp64.a
-```
-都可以调用
+
 ## mpif90
 编译vasp时若FC设置为mpif90,报错
 ```
