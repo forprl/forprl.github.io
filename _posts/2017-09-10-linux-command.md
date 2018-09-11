@@ -645,6 +645,20 @@ Defaults        secure_path=
 ```
 看来我以后，还是用`sudo su`吧
 
+## 添加其他变量
+仅在本shell中生效
+```
+变量=值
+```
+在本shell及子shell中生效:如编译、计算调用一些库和程序时
+```
+export 变量=值
+```
+执行完会影响父shell
+```
+source 变量=值
+```
+
 ## 用户管理
 参考
 <br>[一天一点linux(18):adduser和useradd的区别](https://segmentfault.com/a/1190000007316406)
