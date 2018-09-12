@@ -656,9 +656,9 @@ export 变量=值
 ```
 执行完会影响父shell
 ```
-source 变量=值
+source 文件名/指令
 ```
-
+`source 文件名`表示在当前shell中执行文件中的指令，`./文件名`表示在子shell中执行
 ## 用户管理
 参考
 <br>[一天一点linux(18):adduser和useradd的区别](https://segmentfault.com/a/1190000007316406)
