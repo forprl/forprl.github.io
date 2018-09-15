@@ -3,7 +3,7 @@ layout: post
 title:  "gcc Openmpi 编译siesta "
 date:   2018-09-12 19:14:00 +0800
 categories: DFT
-tags: siesta Intel
+tags: siesta gnu
 author: cndaqiang
 mathjax: true
 ---
