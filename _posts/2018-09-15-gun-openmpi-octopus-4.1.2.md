@@ -29,9 +29,10 @@ octopus-4.1.2只能使用libXC-2.0.x或2.1.x,gsl只能用1.14或更早<br><br>
 
 <br>**遇到的问题:**<br>
 centos6.5默认的gcc-4.4.7编译openmpi-1.6.4报错，编译1.10.3没问题<br>
+centos6.5编译gcc-4.8.4，再此基础上再编译其他程序没有问题<br>
 centos7上先编译gcc-4.8.4(或者使用系统默认的gcc-4.8.5)再编译其他程序时，libXC-2.0.0编译报错，2.0.3就可以编译通过,
 最后编译octopus时configure没问题，make时报错，等待进一步解决
-<br>相比于在centos6.5上编译，仅有gcc版本不同，怀疑是gcc版本的问题使centos7上无法编译通过。[在centOS7.2上编译gcc4.4.7](https://www.cnblogs.com/tianjiqx/p/6224479.html)需要使用root权限，而我尽量希望不适用root权限，不对系统造成更改，所以目前centos7编译octopus搁置
+<br>~~相比于在centos6.5上编译，仅有gcc版本不同，怀疑是gcc版本的问题使centos7上无法编译通过。[在centOS7.2上编译gcc4.4.7](https://www.cnblogs.com/tianjiqx/p/6224479.html)需要使用root权限，而我尽量希望不适用root权限，不对系统造成更改，~~所以目前centos7编译octopus搁置
 <br> <br>
 
 此文直接将在我计算机上的编译过程输入的命令复制了过来，请适当更改
