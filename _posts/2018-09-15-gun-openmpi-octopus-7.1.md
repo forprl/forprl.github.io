@@ -20,7 +20,8 @@ gcc使用系统默认的gcc-4.4.7,其他软件分别编译
 
 
 
-~~octopus简直了，不同版本需要特定版本的编译器、库，~~直接参考组里使用的软件版本，组里使用gcc-4.4.7,libXC-3.0.0,gsl-2.0,openmpi-1.10.3(这个是我之前编译过，没看组里使用的那个版本),openfftw-3.3.3(因为我之前编译过3.3.3，组里使用3.3.7，不编译3.3.7了，应该都可以) scalapack-2,octopus-7.1
+直接参考组里使用的软件版本，组里使用gcc-4.4.7,libXC-3.0.0,gsl-2.0,openmpi-1.10.3(这个是我之前编译过，没看组里使用的那个版本),openfftw-3.3.3(因为我之前编译过3.3.3，组里使用3.3.7，不编译3.3.7了，应该都可以) scalapack-2,octopus-7.1
+<br>centos7也会遇到[centos7 gun 编译octopus-4.1.2遇到问题和解决方案](/2018/09/18/centos7-octopus-4.1.2/)
 
 ## 下载
 
@@ -30,7 +31,7 @@ wget http://www.tddft.org/programs/octopus/down.php?file=libxc/3.0.0/libxc-3.0.0
 wget https://download.open-mpi.org/release/open-mpi/v1.10/openmpi-1.10.3.tar.gz
 wget http://www.netlib.org/scalapack/scalapack_installer.tgz
 wget ftp://ftp.fftw.org/pub/fftw/fftw-3.3.3.tar.gz
-wget http://www.tddft.org/programs/octopus/down.php?file=4.1.2/octopus-4.1.2.tar.gz
+wget http://www.tddft.org/programs/octopus/down.php?file=7.1/octopus-7.1.tar.gz
 ```
 ## libXC-3.0.0
 同[centos6.5 gcc Openmpi 编译octopus-4.1.2](/2018/09/15/gun-openmpi-octopus-4.1.2/)
@@ -65,9 +66,8 @@ octopus-7.1和4.1.2的configure的fftw参数有些不同
 这里和octopus-4.1.2有点不同，4.1.2版本是`octopus-4.1.2/bin/octopus_mpi`
 ```
 EXEC=/home/cndaqiang/soft/octopus-7.1/bin/octopus 
-cd ~/soft/octopus-test/
-mpirun -np 8 $EXEC
 ```
+暂未测试
 
 ## 备注
 每次运行octopus需执行下列命令，即在交作业脚本中加入以下内容，或者添加到.bashrc

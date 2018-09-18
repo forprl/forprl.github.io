@@ -18,22 +18,23 @@ gcc使用系统默认的gcc-4.4.7,其他软件分别编译
 
 
 
- <br> <br>
+<br> <br>
 根据[Basic Configuration of Octopus 4.1.2 with OpenMPI on CentOS 6](https://linuxcluster.wordpress.com/2015/03/25/basic-configuration-of-octopus-4-1-2-with-openmpi-on-centos-6/)的建议:<br>
-octopus-4.1.2只能使用libXC-2.0.x或2.1.x,gsl只能用1.14或更早<br><br>
-
-**使用gcc编译libXC-2.0.0(经测试libXC-2.0.3也可以运行),gsl-1.14,openmpi-1.10.3**<br>
-**编译openmpi-1.10.3得到的并行编译器(mpicc,mpif90等)和库用于编译fftw-3.3.3 scalapack-2,octopus-4.1.2**<br>
-因此在测试不同openmpi版本时，不用重新编译libxc和gsl
+octopus-4.1.2只能使用libxc-2.0.x或2.1.x<br>
+gsl只能用1.14或更早<br><br>
 
 
 <br>**遇到的问题:**<br>
-centos6.5默认的gcc-4.4.7编译openmpi-1.6.4报错，编译1.10.3没问题<br>
-centos6.5编译gcc-4.8.4，再此基础上再编译其他程序没有问题<br>
-centos7上先编译gcc-4.8.4(或者使用系统默认的gcc-4.8.5)再编译其他程序时，libXC-2.0.0编译报错，2.0.3就可以编译通过,
-最后编译octopus时configure没问题，make时报错，等待进一步解决
-<br>~~相比于在centos6.5上编译，仅有gcc版本不同，怀疑是gcc版本的问题使centos7上无法编译通过。[在centOS7.2上编译gcc4.4.7](https://www.cnblogs.com/tianjiqx/p/6224479.html)需要使用root权限，而我尽量希望不适用root权限，不对系统造成更改，~~所以目前centos7编译octopus搁置
-<br> <br>
+gcc-4.4.7编译openmpi-1.6.4报错，使用openmpi-1.10.3<br>
+gcc-4.8.4编译libxc-2.0.0出错，使用libxc-2.0.3<br>
+centos7最后编译octopus时configure没问题，make时报错，解决方案[centos7 gun 编译octopus-4.1.2遇到问题和解决方案](/2018/09/18/centos7-octopus-4.1.2/)
+
+## 依赖关系
+- **使用gcc编译libXC-2.0.0,gsl-1.14,openmpi-1.10.3**<br>
+- **编译openmpi-1.10.3得到的并行编译器(mpicc,mpif90等)和库用于编译fftw-3.3.3 scalapack-2,octopus-4.1.2**<br>
+因此在测试不同openmpi版本时，不用重新编译libxc和gsl
+
+
 
 此文直接将在我计算机上的编译过程输入的命令复制了过来，请适当更改
 
@@ -47,6 +48,12 @@ wget http://www.netlib.org/scalapack/scalapack_installer.tgz
 wget ftp://ftp.fftw.org/pub/fftw/fftw-3.3.3.tar.gz
 wget http://www.tddft.org/programs/octopus/down.php?file=4.1.2/octopus-4.1.2.tar.gz
 ```
+
+## 如果编译gcc
+
+如果指定某版本的gcc编译器，可以参考[gcc Openmpi 编译siesta](/2018/09/12/gun-openmpi-siesta/)<br>
+编译libXC时要指定FCCPP为gcc-4.8.4的cpp，默认是系统的`/usr/bin/cpp`
+
 ## libXC-2.0.0
 ```
 cd ..
@@ -120,7 +127,8 @@ make install
 ```
 EXEC=/home/cndaqiang/soft/octopus-4.1.2/bin/octopus_mpi 
 cd ~/soft/octopus-test/
-mpirun -np 8 $EXEC
+mpirun -np 8 $EXEC  <inp> result
+grep rel_dens result
 ```
 
 ## 备注

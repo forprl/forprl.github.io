@@ -102,6 +102,10 @@ cd build_openmpi-1.10.3_gcc-4.4.8/
 ```
 修改arch.make
 ```
+FC=mpif90
+```
+和
+```
 BLAS_LIBS=/home/cndaqiang/soft/scalapack2_openmpi-1.10.3_gcc-4.8.4/lib/librefblas.a
 LAPACK_LIBS=/home/cndaqiang/soft/scalapack2_openmpi-1.10.3_gcc-4.8.4/lib/libreflapack.a
 BLACS_LIBS=

@@ -14,9 +14,9 @@ type: page
 
 
 ## 关于我
-喜欢物理，计算机
 
-* 2014 山东大学物理学专业本科
+* 2014 山东大学
+* 2018 中国科学院大学
 
 ## 联系我
 
@@ -30,6 +30,6 @@ type: page
 
 ## 关于本站
 本站是我的个人博客，记录我的学习过程
-博客主题来自[gyh的github](https://github.com/Gaohaoyang/gaohaoyang.github.io)，表示感谢
+博客主题来自[HyG的github](https://github.com/Gaohaoyang/gaohaoyang.github.io)，表示感谢
 
 
