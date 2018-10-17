@@ -47,7 +47,7 @@ jekyll s [--port 端口号(不设置默认端口4000)]
      icon: 图标 #导航栏上的图标
      type: page #页面类型，选择page页面
 ---
-/_incloud 页脚footer，页头head，评论系统等html模块化元素，用于引用组成一个html网页
+/_inclouds 页脚footer，页头head，评论系统等html模块化元素，用于引用组成一个html网页
 /_layouts  主要页面的html内容，引用_incloud,_post等文件内容组成网页
 /_site 自已生成不需操作
 /_post 博客文章内容

@@ -743,7 +743,28 @@ cat /proc/cpuinfo
 ```
 watch -n 1 "cat /proc/cpuinfo | grep MHz"
 ```
+### 限制CPU频率
+参考[Linux限制cpu睿频&限制频率](https://www.jianshu.com/p/acc0f11be8cf)
+```
+1.关闭睿频
+echo 1 > /sys/devices/system/cpu/intel_pstate/no_turbo
+2.限制CPU最大频率到50%
+echo "50" | sudo tee /sys/devices/system/cpu/intel_pstate/max_perf_pct
 
+两个办法都可以，方法2更灵活，全程可以通过下面的命令实时查看：
+watch -n 0 "cat /proc/cpuinfo | grep -i mhz"
+```
+实际频率并不能达到最大睿频，如设置频率在86%-100%，实际计算频率一样
+
+### 踢出用户
+上次正在计算，断网了，程序还在后台计算
+```
+[cndaqiang@mom ~]$ who
+cndaqiang pts/0        2018-10-04 15:45 (win10.lan)
+cndaqiang pts/3        2018-10-04 15:48 (win10.lan)
+cndaqiang pts/4        2018-10-04 15:53 (win10.lan)
+[cndaqiang@mom ~]$ pkill -KILL -t pts/0
+```
 ### 同时输出结果到屏幕和文件
 参考[linux命令tee：将信息同时输出到屏幕和文件](http://blog.csdn.net/dazhi_100/article/details/45022253)
 tee<br>
