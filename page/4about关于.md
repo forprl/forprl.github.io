@@ -27,6 +27,16 @@ type: page
 * [Twitter](https://twitter.com/cndaqiang)
 * [Facebook](https://www.facebook.com/daqiang.chen.12)
 
+## 谷歌广告测试
+<script type="text/javascript" src="/js/adsbygoogle.js"></script>
+<script>
+// 谷歌广告测试
+(adsbygoogle = window.adsbygoogle || []).push({
+google_ad_client: "ca-pub-8365330523291002",
+enable_page_level_ads: true
+});
+</script>
+
 
 ## 关于本站
 本站是我的个人博客，记录我的学习过程
