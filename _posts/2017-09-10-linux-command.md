@@ -215,20 +215,23 @@ more 文件
 #### 略
 less，head，tail，
 ### 查找
+
 #### which在PATH中查找命令
 ```
 which ls
 ```
 查找ls所在路径
+
 #### whereis [-bmsu] [BMS 目录名 -f ] 文件名 
->-b   定位可执行文件。
+```
+-b   定位可执行文件。
 -m   定位帮助文件。
 -s   定位源代码文件。
 -u   搜索默认路径下除可执行文件、源代码文件、帮助文件以外的其它文件。
 -B   指定搜索可执行文件的路径。
 -M   指定搜索帮助文件的路径。
 -S   指定搜索源代码文件的路径。
-
+```
 whereis命令只能用于程序名的搜索，基于数据库查询，而且只搜索二进制文件（参数-b）、man说明文件（参数-m）和源代码文件（参数-s）。如果省略参数，则返回所有信息。
  
 例 
@@ -238,11 +241,26 @@ ls: /bin/ls /usr/share/man/man1/ls.1.gz
 ubuntu@VM-10-194-ubuntu:~$ whereis -b ls
 ls: /bin/ls
 ```
-#### find pathname -options [-print -exec -ok ...]
+
+#### find [目录] [条件] [动作]
+目录缺省为当前目录<br>
+条件缺省匹配所有<br>
+动作缺省，无动作<br>
 ```
+举例：查找当前文件夹下所有文件，文件名或路径包含xv
+find | grep xv
+在/tmp目录中找名为test的文件
 find /tmp -name test
+
+目录：如~,.,/etc
+条件：
+-name 文件名(支持缩略，如"*.c"、"*xv*")
+-perm 权限(如755)
+-mmin -10 过去十分钟内更新的
+动作：
+-ls 显示详细信息
+
 ```
-再/tmp目录中查找文件名为test的文件
 更多用法[每天一个linux命令（19）：find 命令概览](http://www.cnblogs.com/peida/archive/2012/11/13/2767374.html)
 
 ### 打包压缩
