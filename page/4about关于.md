@@ -28,14 +28,21 @@ type: page
 * [Facebook](https://www.facebook.com/daqiang.chen.12)
 
 ## 谷歌广告测试
-<script type="text/javascript" src="/js/adsbygoogle.js"></script>
+
+<div>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-8365330523291002"
+     data-ad-slot="7816631956"></ins>
 <script>
-// 谷歌广告测试
-(adsbygoogle = window.adsbygoogle || []).push({
-google_ad_client: "ca-pub-8365330523291002",
-enable_page_level_ads: true
-});
+     (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+</div>
+
+
 
 
 ## 关于本站
