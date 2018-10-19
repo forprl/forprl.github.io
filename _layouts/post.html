@@ -1,6 +1,7 @@
 ---
 layout: default
 ---
+<!---文章页面--->
 
 <div class="page clearfix" post>
     <div class="left">
@@ -64,8 +65,10 @@ layout: default
 
         {% include previousAndNext.html %}
 
-        <h2 id="comments">Comments</h2>
+        <h2 id="comments">评论</h2>
         {% include comments.html %}
+		<h2 id="adsenseAfterComments">广告</h2>
+		{% include adsenseAfterComments.html %}
 
 
     </div>

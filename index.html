@@ -4,7 +4,7 @@ layout: default
 
 <div class="page clearfix" index>
     <div class="left">
-        <h1>Welcome to cndaqiang's Blog!</h1>
+        <h1>欢迎来到我的博客</h1>
         <small>这里记录我学习的过程</small>
         <hr>
         <ul>
@@ -84,7 +84,7 @@ layout: default
             <div class="side ">
                 <div>
                     <i class="fa fa-th-list"></i>
-                    Categories
+                    分类
                 </div>
                 <ul class="content-ul" cate>
                     {% for category in site.categories %}
@@ -103,7 +103,7 @@ layout: default
             <div class="side">
                 <div>
                     <i class="fa fa-tags"></i>
-                    Tags
+                    标签
                 </div>
                 <div class="tags-cloud">
                     {% assign first = site.tags.first %}
@@ -142,6 +142,28 @@ layout: default
                       <a href="{{ root_url }}/{{ site.tag_dir }}#{{ tag[0] }}" style="font-size: {{ size }}pt; color: #{{ color }}{{ color }}{{ color }};">{{ tag[0] }}</a>
                     {% endfor %}
                 </div>
+            </div>
+			
+            <!-- adsens -->
+            <div class="side">
+                <div>
+                    <i class="iconfont  icon-guanggao2"></i>
+                    广告
+                </div>
+				<div class="adsensSlide">
+				<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- 主页侧面Slide -->
+				<ins class="adsbygoogle"
+					style="display:block"
+					data-ad-client="ca-pub-8365330523291002"
+					data-ad-slot="1596259416"
+					data-ad-format="auto"
+					data-full-width-responsive="true"></ins>
+				<script>
+				(adsbygoogle = window.adsbygoogle || []).push({});
+				</script>
+				</div>
+                
             </div>
 
             <!-- <div class="side">
