@@ -21,7 +21,7 @@ type: page
 ## 联系我
 
 * GitHub：[cndaqiang](https://github.com/cndaqiang)
-* email：cndaqiang@gamil.com
+* email：cnchendq@gamil.com
 * [知乎](https://www.zhihu.com/people/cndaqiang)
 * [简书](http://www.jianshu.com/u/5d47905688d0)
 * [Twitter](https://twitter.com/cndaqiang)

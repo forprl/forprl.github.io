@@ -7,7 +7,7 @@
 
 # Site settings
 title: cndaqiang
-brief-intro: Phy Web Linux DFT
+brief-intro: Web Linux DFT
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://cndaqiang.github.io" # the base hostname & protocol for your site
 
