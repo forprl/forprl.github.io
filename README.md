@@ -84,7 +84,7 @@ dos2unix *.md
 参考http://www.jianshu.com/p/5d4a39cdf96d
 在head.html添加 //at.alicdn.com/t/font_461356_6dhj8mgwisozjjor.css
 在footer.html里修改
-照着修改，在_config.xml   里添加用户名
+照着修改，在_config.yml   里添加用户名
 
 # 博客设置
 
