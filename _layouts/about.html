@@ -1,0 +1,52 @@
+---
+layout: default
+---
+
+<div class="page clearfix" post>
+    <div class="left">
+        {{content}}
+		<hr>
+		<h2 id="comments">评论</h2>
+        {% include comments.html %}
+    </div>
+	
+	
+    <div class="right">
+        <div class="wrap">
+			<div class="side">
+                   <div>
+                       <!--- <i class="fa fa-heart"></i> --->
+                       About
+                   </div>
+				   <div>
+		    		<img src="/favicon.jpg">
+					<p>爱吃零食，日益变肥</p>
+				   </div>
+				   
+		    </div>
+			<br>
+			<!-- 其他div框放到这里 -->
+			<div class="side">
+					<div>
+						<i class="fa fa-heart"></i>
+                       Friends
+					</div>
+					<ul>
+				       <li><a herf="http://rbu.ink/">Ride Bu</a>                    </li>
+				       <li><a herf="https://blog.csdn.net/xinming_365">xinming</a>  </li>
+				       <li><a herf="https://miaoliu.github.io/">Miao Liu</a>        </li>
+					</ul>
+				   
+		    </div>
+		
+			 
+            
+
+            <!-- Content -->
+            
+            <!-- 其他div框放到这里 -->
+            <!-- <div class="side">bbbb</div> -->
+        </div>
+    </div>
+</div>
+<script src="{{ "/js/pageContent.js " | prepend: site.baseurl }}" charset="utf-8"></script>

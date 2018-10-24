@@ -91,3 +91,19 @@ dos2unix *.md
 ~~简书发布/保存成草稿~~
 ~~转发到github-page 解决图片缓存问题~~
 
+
+## 博客更新 2018-10-24
+### 加入谷歌广告
+处于好奇的目的，在网站上投放广告的目的，为了不影响阅读，放在了文章的最下面<br>
+投放方式很简单<br>
+在[GoogleAdsense](https://www.google.com/adsense)注册账户，大约一天后获得通过<br>
+选择适当的广告类型，生产JavaScript脚本，复制粘贴到网页的相关内容处即可，也可以直接全局广告放入head元素内，谷歌会根据网页的内容，自动加入广告，如图
+![](http://cndaqiang.github.io/uploads/2018/10/ad.jpg)
+此次更新，在`index.html`的侧边栏，和`_layouts\post.html`的评论区后，加入广告
+### 重写about页面
+参考[towdium](https://www.towdium.me/about/#zh)，加入中英文介绍<br>
+添加好友链接
+### 使用来比力评论系统
+disqus国内被墙，改用来必力，测试中
+在此页面安装[livere](https://www.livere.com/)<br>
+获得id后填入`_config.yml`中的City_uid

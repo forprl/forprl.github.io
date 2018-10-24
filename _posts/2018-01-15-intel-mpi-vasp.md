@@ -346,3 +346,23 @@ ofa-v2-mlx5_0-1u u2.0 nonthreadsafe default libdaploucm.so.2 dapl.2.0 "mlx5_0 1"
 Using Connect-IB with Intel MPI](https://community.mellanox.com/groups/hpc/blog/2013/10/29/some-notes-for-using-connect-ib-with-intel-mpi)<br>
 [dapl fabric is not available and fallback fabric is not enabled with IMPI 4.0.0](https://software.intel.com/en-us/forums/intel-clusters-and-hpc-technology/topic/290764)<br>
 不想看了,以后再解决,先去掉` -genv I_MPI_DEVICE rdssm`参数运行
+
+### internal error in INIT_SCALA: DESCA, DESCINIT, INFO: 
+使用intel 2018编译器在计算一些体系时，使用的核数小于一定值时遇到此问题，使用intel 2015编译器在相同环境下编译后,运行vasp没有报错，暂时先这样解决
+```
+{    0,    0}:  On entry to 
+DESCINIT parameter number    6 had an illegal value 
+{    0,    1}:  On entry to 
+DESCINIT parameter number    6 had an illegal value 
+{    0,    2}:  On entry to 
+DESCINIT parameter number    6 had an illegal value 
+{    0,    3}:  On entry to 
+DESCINIT parameter number    6 had an illegal value 
+{    0,    4}:  On entry to 
+DESCINIT parameter number    6 had an illegal value 
+ internal error in INIT_SCALA: DESCA, DESCINIT, INFO:           -6
+ internal error in INIT_SCALA: DESCA, DESCINIT, INFO:           -6
+ internal error in INIT_SCALA: DESCA, DESCINIT, INFO:           -6
+ internal error in INIT_SCALA: DESCA, DESCINIT, INFO:           -6
+ internal error in INIT_SCALA: DESCA, DESCINIT, INFO:           -6
+```
