@@ -238,7 +238,7 @@ ENCUT=250
 侯:推荐手动输入<br>
 bbs.计算多个元素进行对比时，建议统一固定一个值
 bbs.如果计算时体积发生了变化，我们需要增加ENCUT的值，比如说：<br>
-ENCUT = 1.3 * max(ENMAX) 即取POSCAR中ENMAX最大元素的ENMAX值。
+ENCUT = 1.3 * max(ENMAX) 即取POTCAR中ENMAX最大元素的ENMAX值。
 ### PREC计算精度
 决定ENCUT,FFT的网格大小和ROPT的默认值
 ```

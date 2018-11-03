@@ -726,6 +726,14 @@ scp -r username@servername:remote_dir/ /tmp/local_dir
 #上传目录到服务器
 scp  -r /tmp/local_dir username@servername:remote_dir
 ```
+服务器地址为ipv6地址时,servername用`[]`括起来，如
+```
+[xxxx:dc01:xxxx:xxx:xxxx:3f37:75fd:788a]
+```
+使用非22端口时，在scp和文件**之间**加入`-P 端口号`,如
+```
+scp -P 1234 /path/local_filename username@servername:/path  
+```
 
 ### 短时间内设置语言为英文
 装了centos,系统默认中文,安装软件报错不好搜索,短期设置为英文
