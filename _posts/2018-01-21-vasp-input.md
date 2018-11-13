@@ -18,7 +18,7 @@ INCAR输入参数推荐苏长荣老师的vasp安装和使用说明(后面有索�
 
 ## 说明
 输入文件POSCAR，KPOINT，POTCAR，INCAR等,用`#`注释
-## POTCAT 赝势
+## POTCAR 赝势
 ### 产生
 来源VASP官网提供<br>
 直接拼接赝库,顺序同POSCAR
