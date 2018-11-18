@@ -803,6 +803,26 @@ ls | tee out.txt
 ```
 sudo nmap -sP -PI -PT -oN ipandmaclist.txt 10.127.1.0/24
 ```
+### 断开ssh后，保持程序运行
+参考[Linux 技巧：让进程在后台可靠运行的几种方法](https://www.ibm.com/developerworks/cn/linux/l-cn-nohup/index.html)
+在程序执行时，使用nohup
+```
+nohup 命令 &
+```
+程序已经运行了，使用disown
+```
+#ctrl+z后台
+^Z
+[3]+  Stopped                 runvasp 10
+#bg %job号，如本例为3,也可用jobs命令查看
+#使暂停的后台job运行
+[cndaqiang@mom 3]$ bg %3
+[3]+ runvasp 10 &
+RMM:   7    -0.688651957131E+02    0.23242E-04   -0.10489E-04  6514   0.318E-02    0.133E-02
+#让job忽略HUP信号，断开ssh后，仍能运行
+[cndaqiang@mom 3]$ disown -h %3
+```
+
 ## 参考
 [peida-博客-每天一个linux命令目录](http://www.cnblogs.com/peida/)
 
@@ -813,4 +833,6 @@ sudo nmap -sP -PI -PT -oN ipandmaclist.txt 10.127.1.0/24
 [Ubuntu终端彻底删除软件](http://www.linuxidc.com/Linux/2012-07/65455.htm)
 
 [tar命令](http://man.linuxde.net/tar)
+
+
 
