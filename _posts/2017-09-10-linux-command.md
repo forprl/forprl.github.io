@@ -804,7 +804,7 @@ ls | tee out.txt
 sudo nmap -sP -PI -PT -oN ipandmaclist.txt 10.127.1.0/24
 ```
 ### 断开ssh后，保持程序运行
-参考[Linux 技巧：让进程在后台可靠运行的几种方法](https://www.ibm.com/developerworks/cn/linux/l-cn-nohup/index.html)
+参考[Linux 技巧：让进程在后台可靠运行的几种方法](https://www.ibm.com/developerworks/cn/linux/l-cn-nohup/index.html)<br>
 在程序执行时，使用nohup
 ```
 nohup 命令 &
