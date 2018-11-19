@@ -134,17 +134,17 @@ Direct  Direct分数坐标,Car实际坐标单位为埃
 可以内容为空保持默认,但不能没有该文件
 ### system=xxx
 注释
-### ISATRT ICHARG INIWAV
-- ISATART初始波函数产生方法
+### ISTART ICHARG INIWAV
+- ISTARTT初始波函数产生方法
 <br>默认存在WAVECAR时取1,否则0
-<br>ISATAR=0,根据INIWAV决定初始波函数的产生方法
-<br>ISATAR=1,波函数从WAVECAR文件读入
+<br>ISTART=0,根据INIWAV决定初始波函数的产生方法
+<br>ISTART=1,波函数从WAVECAR文件读入
 - INIWAV初始波函数产生方法
-<br>尽在ISATART=0生效
+<br>尽在ISTARTT=0生效
 <br>0 凝胶波函数
 <br>1[默认]随机数
 - ICHAGE初始电荷密度产生方法
-<br>默认ISATRT=0取2否则取0
+<br>默认ISTART=0取2否则取0
 <br> 0从初始波函数计算
 <br> 1从CHGCAR(上次输出的电荷密度)读入
 <br> +10非自洽运算,电荷密度在计算过程中保持不变
@@ -152,15 +152,15 @@ Direct  Direct分数坐标,Car实际坐标单位为埃
 
 初次计算
 ```
-ISATRT=0 ICHARG=2
+ISTART=0 ICHARG=2
 ```
 程序终止,恢复计算
 ```
-ISATRT=1 ICHARG=1
+ISTART=1 ICHARG=1
 ```
 计算能带最后进行自洽时
 ```
-ISATRT=1 ICHARG=11
+ISTART=1 ICHARG=11
 ```
 
 ### EDIFF EDIFFG

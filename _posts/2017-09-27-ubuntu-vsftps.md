@@ -10,14 +10,12 @@ mathjax: true
 * content
 {:toc}
 
+## 这篇文章写的太乱了，不想更新了，如果仅想用的话，看[Ubuntu 16.04 使用vsftpd搭建ftp服务器](/2018/11/17/ubuntu-vsftp2/)
 
 
 
-
-
-# 这篇文章写的太乱了，不想更新了，如果仅想用的话，看[]()
 ## 参考
-本文主要参考[Ubuntu 14.04 配置vsftpd实现FTP服务器 - 通过FTP连接AWS](http://www.jianshu.com/p/9ea295f9e513)
+[Ubuntu 14.04 配置vsftpd实现FTP服务器 - 通过FTP连接AWS](http://www.jianshu.com/p/9ea295f9e513)
 
 [linux 更改文件所属用户及用户组](http://blog.csdn.net/zhouleiblog/article/details/9325913)
 

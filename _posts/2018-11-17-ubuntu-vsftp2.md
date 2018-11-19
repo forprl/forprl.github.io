@@ -10,10 +10,12 @@ mathjax: true
 * content
 {:toc}
 
-
-
-
 本文默认配置允许匿名只读访问一些目录，linux用户访问某些目录并隔离
+
+
+
+
+
 
 ## 参考
 [How To Set Up vsftpd for a User's Directory on Ubuntu 16.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-vsftpd-for-a-user-s-directory-on-ubuntu-16-04)<br>
