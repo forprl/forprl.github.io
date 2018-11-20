@@ -805,11 +805,18 @@ sudo nmap -sP -PI -PT -oN ipandmaclist.txt 10.127.1.0/24
 ```
 ### 断开ssh后，保持程序运行
 参考[Linux 技巧：让进程在后台可靠运行的几种方法](https://www.ibm.com/developerworks/cn/linux/l-cn-nohup/index.html)<br>
-在程序执行时，使用nohup
+1.在程序执行前，使用nohup
 ```
 nohup 命令 &
 ```
-程序已经运行了，使用disown
+2. setsid<br>
+在使用ssh开隧道时，希望在后台运行，nohup,(命令 &)，screen，disown等无法使用，使用setsid可以<br>
+就可以使用ipv6加服务器，免费使用网络了
+```
+setsid ssh -D 192.168.1.178:5678 -p 1234 username@ipv6128.qiang
+```
+免密码登陆ssh，还要将客户端的`~/.ssh/id_rsa.pub`(使用`ssh-keygen`生成)里的内容，追加到服务器的`~/.ssh/authorized_keys`(如果没有就新建，权限400或600)里面<br>
+3. 如果程序已经运行了，使用disown
 ```
 #ctrl+z后台
 ^Z
