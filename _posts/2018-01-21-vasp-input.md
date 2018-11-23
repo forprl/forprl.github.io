@@ -168,8 +168,9 @@ EDIFF,EDIFFG 是控制收敛标准的两个参数。
 - EDIFF 电子自洽过程(单个离子步内),能量的差别取值为1E-4或者1E-5即可
 - EDIFFG 结构优化的过程
 <br>力作为收敛标准,此时EDIFFG为负值。一般来说取值在-0.01到-0.05之间
+<br>**在做NEB过渡态计算时，使用VTST的优化算法，EDIFFG需要取负值**
 <br>使用能量作为标准:此时,EDIFFG 为正值,一般为0.001-0.0001
-<br>如EDIFFG=-0.03或EDIFF=0.001
+<br>如EDIFFG=-0.03或EDIFF=0.001，常EDIFF=1E-5,EDIFFG=1E-4,EDIFFG=-0.02
 
 ### ISPIN MAGMOM
 由体系决定<br>
