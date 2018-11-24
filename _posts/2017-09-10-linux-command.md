@@ -816,6 +816,11 @@ nohup 命令 &
 setsid ssh -D 192.168.1.178:5678 -p 1234 username@ipv6128.qiang
 ```
 免密码登陆ssh，还要将客户端的`~/.ssh/id_rsa.pub`(使用`ssh-keygen`生成)里的内容，追加到服务器的`~/.ssh/authorized_keys`(如果没有就新建，权限400或600)里面<br>
+当然，对于ssh的后台，这条命令更好用
+```
+ssh  -f -N -D 192.168.1.178:5678 -p 1234 username@ipv6128.qiang
+```
+
 3. 如果程序已经运行了，使用disown
 ```
 #ctrl+z后台
