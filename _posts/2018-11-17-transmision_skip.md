@@ -50,7 +50,7 @@ sudo apt-get install intltool
 ```
 wget https://github.com/cndaqiang/transmission-2.92_skiphashcheck/archive/master.zip
 unzip master.zip
-cd cd transmission-2.92_skiphashcheck-master/
+cd transmission-2.92_skiphashcheck-master/
 ```
 检查
 ```
