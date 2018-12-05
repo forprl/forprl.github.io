@@ -18,8 +18,8 @@ mathjax: true
 解答下载[solution.pdf](/doc/2018/12/solution.pdf)
 
 在线阅读
-<div>
+
 <embed src="/doc/2018/12/solution.pdf" type="application/pdf" width="100%" height="100%">
-</div>
+
 
 
