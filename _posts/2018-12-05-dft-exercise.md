@@ -18,6 +18,10 @@ mathjax: true
 解答下载[solution.pdf](/doc/2018/12/solution.pdf)
 
 在线阅读
-<iframe src="/doc/2018/12/solution.pdf" style="width:600px; height:1200px;" frameborder="0"></iframe> 
+<div>
+<script>
+PDFObject.embed("/doc/2018/12/solution.pdf");
+</script> 
+</div>
 
 
