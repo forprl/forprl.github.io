@@ -19,7 +19,7 @@ mathjax: true
 
 在线阅读
 
-<embed src="/doc/2018/12/solution.pdf" type="application/pdf" width="100%" height="100%">
+<embed src="/doc/2018/12/solution.pdf" type="application/pdf" width="100%" height="1000%">
 
 
 
