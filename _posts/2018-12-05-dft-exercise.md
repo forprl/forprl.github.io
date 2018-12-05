@@ -19,9 +19,7 @@ mathjax: true
 
 在线阅读
 <div>
-<script>
-PDFObject.embed("/doc/2018/12/solution.pdf");
-</script> 
+<embed src="/doc/2018/12/solution.pdf" type="application/pdf" width="100%" height="100%">
 </div>
 
 
