@@ -112,7 +112,7 @@ source  /opt/intel/impi/2018.0.128/bin64/mpivars.sh
 ### 编译并行fftw
 
 下面的路径与实际路径与intel编译器的版本有关,版本变更后适当修改<br>
-`make -h`可**不是很确定**使用intel编译器编译并行版本的fftw命令为`make libmic`<br>
+`make -h`可**不是很确定**使用intel编译器编译并行版本的fftw命令为`make libintel64`<br>
 建议编译并行fftw使用下文[编译fftw](/2018/01/15/intel-mpi-vasp/#%E4%BD%BF%E7%94%A8fftw)的方法
 
 ```
@@ -232,8 +232,8 @@ INCS       =-I/opt/fftw/include
 ```
 此处参考[fftw 编译安装说明](http://blog.csdn.net/sowhatgavin/article/details/71036878)
 
-## fftw不支持mpi报错
-编译fftw时，若使用`make libintel64`，则编译的fftw不支持mpi,编译时会对`libfftw3xf_intel.a`报错
+## ~~fftw不支持mpi报错~~
+~~编译fftw时，若使用`make libintel64`，则编译的fftw不支持mpi,编译时会对`libfftw3xf_intel.a`报错~~
 
 ## 报错
 ### segmentation fault occurred
