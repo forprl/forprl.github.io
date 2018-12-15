@@ -1,0 +1,90 @@
+---
+layout: post
+title:  "编译程序回顾：以VASP-5.4.1，OCTOPUS-7.1为例"
+date:   2018-12-15 13:43:00 +0800
+categories: DFT
+tags:  DFT Linux
+author: cndaqiang
+mathjax: true
+---
+* content
+{:toc}
+
+回顾以前的编译坑
+
+
+
+##　编译器
+### intel系 CC=icc CF=ifort CXX=icpc
+使用
+```
+source /opt/intel/compilers_and_libraries_2018.0.128/linux/bin/compilervars.sh intel64
+source /opt/intel/compilers_and_libraries_2018.0.128/linux/bin/iccvars.sh intel64 
+source /opt/intel/compilers_and_libraries_2018.0.128/linux/bin/ifortvars.sh intel64
+```
+### GCC系 CC=gcc FC=gfortran CXX=g++
+使用
+```
+export PATH=$GCCDIR/bin:$PATH
+export LD_LIBRARY_PATH=$GCCDIR/lib64:$LD_LIBRARY_PATH
+```
+
+### 并行编程接口
+### MPI 超算常用
+[wiki-MPI](https://zh.wikipedia.org/wiki/%E8%A8%8A%E6%81%AF%E5%82%B3%E9%81%9E%E4%BB%8B%E9%9D%A2)消息传递界面/接口（英语：Message Passing Interface，缩写MPI）是一个并行计算的应用程序接口（API），常在超级计算机、计算机簇等非共享内存环境程序设计
+<br>运行方式
+```
+mpirun -np 核数 $EXEC
+```
+每种MPI程序(如OPENMPI，MPICH2)使用的串行(ifort或gcc)编译器编译，形成不同的并行编译器(openmpi+ifort或openmpi+gcc)
+#### OPENMPI
+[Open MPI:Open Source High Performance Computing](https://www.open-mpi.org/)
+<br>使用编译器编译OPENMPI参考[gcc Openmpi 编译siesta](https://cndaqiang.github.io/2018/09/12/gun-openmpi-siesta/#%E7%BC%96%E8%AF%91openmpi),只需把`FC CC CXX`指定即可
+<br>如使用intel系`FC=ifort CC=icc CXX=icpc`,测试使用intel18的编译器编译openmpi-2.1.5与openmpi-4.0.0通过，其他版本可能存在兼容性问题
+<br>个人编译，环境变量
+```
+export PATH=$MPIDIR/bin:$PATH
+export LD_LIBRARY_PATH=$MPIDIR/lib:$LD_LIBRARY_PATH
+```
+超算上一般都编译好了不同的MPI程序和编译器的组合，如在天河上导入不同编译器与OPENMPI的组合示例
+```
+[AAA@lon6%tianhe2-B ~]$  module load openmpi/1.10-intel
+[AAA@lon6%tianhe2-B ~]$ mpicc --version
+icc (ICC) 14.0.2 20140120
+Copyright (C) 1985-2014 Intel Corporation.  All rights reserved.
+
+
+[AAA@lon12%tianhe2-B ~]$ module load openmpi/1.8.3
+[AAA@lon12%tianhe2-B ~]$ mpicc --version
+gcc (GCC) 4.4.7 20120313 (Red Hat 4.4.7-4)
+Copyright (C) 2010 Free Software Foundation, Inc.
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+```
+
+#### IMPI(Intel MPI)
+Intel MPI－Intel基于开放源代码的MPICH2与MVAPICH2研发成的MPI
+<br>安装parallel_studio_xe_2018可以安装，一般目录在`/opt/intel/impi/`,包含IMPI+intel系与IMPI+gcc系
+<br>环境变量
+```
+source /opt/intel/impi/5.0.2.044/bin64/mpivars.sh
+source  /opt/intel/impi/2018.0.128/bin64/mpivars.sh
+
+#intel系 mpiicc mpiifort mpiicpc
+#gcc系 mpicc mpif90 mpicxx
+```
+天河调用IMPI,包含IMPI+intel系与IMPI+gcc系,命令同上
+```
+[AAA@lon6%tianhe2-B ~]$ module load MPI/Intel/IMPI/4.1.3.048
+[AAA@lon6%tianhe2-B ~]$ mpiifort --version
+ifort (IFORT) 14.0.2 20140120
+Copyright (C) 1985-2014 Intel Corporation.  All rights reserved.
+```
+
+#### MPICH等，我没用过，略
+
+### Pthreads 略
+### OPENMP
+**注意OPENMP不是OPENMPI，OPENMPI是基于MPI的一种**
+依据[wiki-OpenMP](https://zh.wikipedia.org/zh-hans/OpenMP)的说法，OpenMP的另一个缺点是不能在非共享内存系统（如计算机集群）上使用。在这样的系统上，MPI使用较多。
+<br>然后天河上好像也没有OPENMP的module，先略了
