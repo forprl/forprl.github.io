@@ -150,5 +150,121 @@ LIBS_FFTW = -L/home/cndaqiang/soft/OPENMPI-GCC/LIB/fftw-3.3.4/lib -lfftw3_mpi -l
 
 
 
+## Example1-GCC-4.8.4-+openmpi-1.10.3+mkl-intel18+vasp.5.4.1
+### 源码修改
+使用gcc系编译vasp.5.4.1,要修改部分vasp源码，方法参考[Compiling VASP With Gfortran](https://www.nsc.liu.se/~pla/blog/2013/05/14/vasp-gcc/)，再次致谢[Ionizing Radiation](https://github.com/IonizingRadiation)<br>
+修改`us.F`，按照下面，把-开的那行头变成+后面的内容
+```
+@@ -1460,7 +1460,7 @@ END MODULE
+	   USE asa
+	   USE paw
+	   USE constant
+-      USE us
++      USE us, only : setdij_
+	   IMPLICIT NONE
+ 
+	   TYPE (type_info)   T_INFO
+@@ -2693,7 +2693,7 @@ END MODULE
+	   USE mgrid
+	   USE lattice
+	   USE wave
+-      USE us
++      USE us, only: augmentation_charge
+```
+### 库
+```
+cp arch/makefile.include.linux_gfortran makefile.include
+```
+修改`makefiel.include`
+```
+MKLROOT    = /opt/intel/compilers_and_libraries/linux/mkl
+FC         = mpif90  -m64 -I${MKLROOT}/include
+FCL        = mpif90  -m64 -I${MKLROOT}/include
+
+BLAS       =  ${MKLROOT}/lib/intel64/libmkl_scalapack_lp64.a -Wl,--start-group ${MKLROOT}/lib/intel64/libmkl_cdft_core.a ${MKLROOT}/lib/intel64/libmkl_gf_lp64.a ${MKLROOT}/lib/intel64/libmkl_sequential.a ${MKLROOT}/lib/intel64/libmkl_core.a ${MKLROOT}/lib/intel64/libmkl_blacs_openmpi_lp64.a -Wl,--end-group -lpthread -lm -ldl
+
+OBJECTS    = fftmpiw.o fftmpi_map.o  fftw3d.o  fft3dlib.o \
+             /home/cndaqiang/soft/OPENMPI-GCC/LIB/fftw-3.3.4/lib/libfftw3_mpi.a
+INCS       =-I/home/cndaqiang/soft/OPENMPI-GCC/LIB/fftw-3.3.4/include
+```
+
+## Example2-GCC-4.8.4-+openmpi-1.10.3+netlib数学库-intel18+vasp.5.4.1
+### 源码修改
+同上
+### 库
+```
+cp arch/makefile.include.linux_gfortran makefile.include
+```
+修改`makefiel.include`,**注意fftw的阴影和上面的不一样**
+```
+FC         = mpif90
+FCL        = mpif90
+
+LIBDIR     = /home/cndaqiang/soft/scalapack/lib
+BLAS       = -L$(LIBDIR) -lrefblas
+LAPACK     = -L$(LIBDIR) -ltmg -lreflapack -llapack
+BLACS      =
+SCALAPACK  = -L$(LIBDIR) -lscalapack $(BLACS)
+
+OBJECTS    = fftmpiw.o fftmpi_map.o  fftw3d.o  fft3dlib.o \
+             /home/chendq/soft/OPENMPI-GCC/LIB/fftw-3.3.4/lib/libfftw3_mpi.a \
+             /home/chendq/soft/OPENMPI-GCC/LIB/fftw-3.3.4/lib/libfftw3.a
+INCS       =-I/home/chendq/soft/OPENMPI-GCC/LIB/fftw-3.3.4/include
+```
+
+## Example3-GCC-4.8.4+openmpi-1.10.3+mkl-intel18+octopus[强烈不建议，可make，check时全是FAIL]
+环境变量
+```
+GCCDIR=/home/cndaqiang/soft/gcc-4.8.4
+
+MPIDIR=/home/cndaqiang/soft/openmpi-1.10.3_gcc-4.8.4
+
+FFTWDIR=/home/cndaqiang/soft/OPENMPI-GCC/LIB/fftw-3.3.4
+
+GSDIR=/home/cndaqiang/soft/gsl-1.14
+
+LIBXCDIR=/home/cndaqiang/soft/libxc-2.0.3
+
+MKLROOT=/opt/intel/compilers_and_libraries_2018.3.222/linux/mkl
+source $MKLROOT/bin/mklvars.sh intel64
+
+MATHDIR=/home/cndaqiang/soft/scalapack/lib
+export LD_LIBRARY_PATH=$MATHDIR:$LD_LIBRARY_PATH
+
+export PATH=$GCCDIR/bin:$PATH
+export LD_LIBRARY_PATH=$GCCDIR/lib64:$LD_LIBRARY_PATH
+
+export PATH=$MPIDIR/bin:$PATH
+export LD_LIBRARY_PATH=$MPIDIR/lib:$LD_LIBRARY_PATH
+
+export PATH=$FFTWDIR/bin:$PATH
+export LD_LIBRARY_PATH=$FFTWDIR/lib:$LD_LIBRARY_PATH
+
+export PATH=$GSDIR/bin:$PATH
+export LD_LIBRARY_PATH=$GSDIR/lib:$LD_LIBRARY_PATH
+
+export PATH=$LIBXCDIR/bin:$PATH
+export LD_LIBRARY_PATH=$LIBXCDIR/lib:$LD_LIBRARY_PATH
+```
+配置Makefile
+```
+./configure --prefix=/home/cndaqiang/soft/octopus-7.1-build \
+ --with-blas="-L$MKLROOT/lib/intel64  -Wl,--start-group -lmkl_gf_lp64 -lmkl_sequential -lmkl_core -Wl,--end-group -lpthread"\
+ --with-blacs=$MKLROOT/lib/intel64/libmkl_blacs_openmpi_lp64.a\
+ --with-scalapack=$MKLROOT/lib/intel64/libmkl_scalapack_lp64.a\
+ --with-libxc-prefix=$LIBXCDIR   --with-gsl-prefix=$GSDIR \
+ --with-fftw-prefix=$FFTWDIR --enable-mpi CC=mpicc FC=mpif90 CXX=mpicxx
+ ```
+## Example4-GCC-4.8.4+openmpi-1.10.3+netlib数学库-intel18+octopus[强烈不建议，可make，check时全是FAIL]
+环境变量同上
+<br>配置Makefile
+```
+ ./configure --prefix=$(pwd)/../octopus-7,1-build-scalapack  --with-blas="-L$MATHDIR  -lrefblas -ltmg -lreflapack  -lscalapack" --with-libxc-prefix=$LIBXCDIR   --with-gsl-prefix=$GSDIR  --with-fftw-prefix=$FFTWDIR --enable-mpi CC=mpicc FC=mpif90 CXX=mpicxx
+```
+
+## 还需要
+还需要好好去学fortran，不然遇到源码的问题，除了遍历各种编译器数学库，狂google，不会修改，太没效率了，说的就是octopus-8,真不知道怎么来编译你。
+
+
 
 
