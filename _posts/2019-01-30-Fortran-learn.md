@@ -92,6 +92,7 @@ complex :: com
 ```
 
 ### 属性
+
 ####  数值型kind
 用于解决不同编译器默认表达范围不一致问题<br>
 整形最大可表示i位示例
@@ -111,6 +112,15 @@ integer(kind=KI) :: i1 i2 i3
 integer , parameter :: DP=selected_real_kind(r=50,p=14)
 real(kind=DP) :: r1 r2
 ```
+在数值后面加kind数值，表明数值类型，如siesta
+
+```
+! Initialize some variables(Double precision:dp=8)
+      DUext = 0.0_dp
+      Eharrs = 0.0_dp
+      Eharrs1 = 0.0_dp
+```
+
 complex与实数kind一样
 
 #### 字符型len
@@ -530,6 +540,29 @@ end function fun
 
 ### 参数传递：在函数内解释参数
 
+#### 传递字符串
+
+**声明时`len=*`**，siesta得代码中常见
+
+```
+program strsub
+      implicit none
+      character(len=20)::str
+      str="hello,world!"
+      call sub(str)
+      contains
+              subroutine sub(strr)
+                      implicit none
+                      character(len=*) :: strr
+                      write(*,*) trim(strr)
+              end subroutine sub
+end program strsub
+```
+
+
+
+
+
 #### 传递数组-数组地址维度大小都会传过来
 
 推荐方式
@@ -557,7 +590,7 @@ end function sum
 
 也可以把数组维度作为参数传入
 
-也有用`real :: a(*)`，老程序中有，虚参只能为1维
+**也有用`real :: a(*)`，老程序中有，虚参只能为1维,**
 
 #### 传递结构体-用module
 
@@ -733,6 +766,7 @@ real function jifen(fun,down,up,step) result(y)
 - 子程序可以使用module内的变量，子程序内部局部变量互相隔离
 - module内部程序可以互相调用，不用interface
 - 所有 use 了这个 module 的程序单元，可以自由使用 public 的变量和函数、只读的使用 protected 的变量<br>private 的变量和函数，仅供 module 内部使用
+- **先将module所在的文件，编译成对象文件`xxx.o`和模块描述文件`模块名.mod`，在将对象`xxx.o`和主程序连接**
 
 ### 定义
 
@@ -761,7 +795,7 @@ use smartHome, only : screen => tv , b ！使用并重命名
 
 
 
-### 权限形容词
+### 权限形容词，在`contains`前写
 
 |           | 变量                    | 子程序          |
 | --------- | ----------------------- | --------------- |
@@ -770,6 +804,22 @@ use smartHome, only : screen => tv , b ！使用并重命名
 | private   | 外部无法访问            | 外部无法调用    |
 
 默认全是`public`，更改默认为`Private`，在`implict none`和声明语句之间加一行`Private`默认全私有
+
+例
+
+```
+module m_init
+      private
+      public :: init1,init2
+      contains
+              subroutine init1()
+                      write(*,*) "init1 begin"
+              end subroutine init1
+              subroutine init2()
+                      write(*,*) "init2 gegin"
+              end subroutine init2
+end module m_init
+```
 
 
 
@@ -1051,9 +1101,15 @@ call system("date",hh)
 - ZONE is `INTENT(OUT)` and has form (+-)hhmm, representing the difference with respect to Coordinated Universal Time (UTC). 
 - VALUE 参考上面给的参考链接，此处略
 
-
-
 其他时间[CPU_TIME](https://gcc.gnu.org/onlinedocs/gfortran/CPU_005fTIME.html#CPU_005fTIME)与[SYSTEM_CLOCK](https://gcc.gnu.org/onlinedocs/gfortran/SYSTEM_005fCLOCK.html#SYSTEM_005fCLOCK)
+
+### 暂停一段时间再执行
+
+```
+call sleep(n) !暂停n秒
+```
+
+
 
 
 
