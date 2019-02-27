@@ -140,7 +140,6 @@ call MPI_GET_PROCESSOR_NAME(name,namelen,ierr)
 ```
 #### call MPI_GET_VERSION(VERSION, SUBVERSION, ierr) mpi版本 
 ```
-INCLUDE ’mpif.h’
 MPI_GET_VERSION(VERSION, SUBVERSION, IERROR)
     INTEGER    VERSION, SUBVERSION, IERROR
 ```
@@ -203,10 +202,7 @@ Fortran中就是变量名/数组元素
 | MPI_COMPLEX          | complex          |
 | MPI_LOGICAL          | logical          |
 | MPI_BYTE             | 8 binary digits  |
-|                      | data packed or   |
-| MPI_PACKED           | unpacked   with  |
-|                      | MPI_Pack()/      |
-|                      | MPI_Unpack       |
+| MPI_PACKED | data packed or unpacked   with MPI_Pack()/MPI_Unpack |
 
 #### 发送目的地DEST
 发送进程指定的接收该消息的目的进程，也就是**接收进程的进程号**
