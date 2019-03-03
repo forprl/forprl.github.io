@@ -24,21 +24,21 @@ jianshu_username: 5d47905688d0
 linkedIn_username: 
 dribbble_username:
 
-description_footer: 本站记录我的学习笔记！
+description_footer: 学习！！！
 
 # comments
 # 多说，disqus，来必力
 # 
 duoshuo_shortname: #hygblog
 disqus_shortname: #cndaqiang-github-io
-City_uid: MTAyMC80MDQ4OC8xNzAxNQ==
+City_uid: #MTAyMC80MDQ4OC8xNzAxNQ==
 
 # statistic analysis 统计代码
 # 百度统计 id，将统计代码替换为自己的百度统计id，即
 # hm.src = "//hm.baidu.com/hm.js?xxxxxxxxxxxx";
 # xxxxx字符串
-baidu_tongji_id: 8ba332e6517ae0ba8a13339285d97bb3
-google_analytics_id: UA-109057291-1 # google 分析追踪id
+baidu_tongji_id: #8ba332e6517ae0ba8a13339285d97bb3
+google_analytics_id: #UA-109057291-1 # google 分析追踪id
 
 # Build settings
 markdown: kramdown
